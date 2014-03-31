@@ -13,11 +13,11 @@ module.exports = function (req, res, next) {
 
     UserService.getUserFromHeaders(req, function (err, user){
 
-        if (err || !user)
-            return res.forbidden('You are not permitted to perform this action.');
+        if (err || !user || user.locked)
+            return res.forbidden('You are not permitted to perform this action. 1');
 
-        if (user.role.bitMask == userRoles.admin.bitMask)
-            return res.forbidden('You are not permitted to perform this action.');
+        if (user.role.bitMask != userRoles.admin.bitMask)
+            return res.forbidden('You are not permitted to perform this action. 2');
 
         next();
 

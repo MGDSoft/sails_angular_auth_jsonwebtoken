@@ -37,9 +37,6 @@ module.exports = function (req, res, next) {
         if (!user || err)
             return res.forbidden(ERROR_MSG);
 
-        if (decode.signature != user.signature)
-            return res.forbidden(ERROR_MSG+decode.signature +"   "+ user.signature);
-
         if (!jwt.verify(authorization, user.salt + user.tokenDate ))
             return res.forbidden(ERROR_MSG);
 

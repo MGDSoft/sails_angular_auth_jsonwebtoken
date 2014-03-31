@@ -1,14 +1,15 @@
 sails_angular_client_side_auth_jwt
 ==================================
 
-Playing with jwt, angular and sails. Html and some js angular has been taken from https://github.com/fnakstad/angular-client-side-auth (Frederik Nakstad).
+Testing jwt, angular and sails. Htmls and some js angular has been taken from https://github.com/fnakstad/angular-client-side-auth (Frederik Nakstad).
 
-JsonWebToken server side, salt will be generate automatically per user. With that salt we create his password encrypted (normal..). His salt + Date generate then token and its saved in DB
-, only want 1 valid token key per user. If user do other login token will be updated.
+JsonWebToken server side: A salt is generated (password) automatically per user. Then the salt is used to create the encrypted password (as regular...). Also with the salt + Date a user-token is generated and stored Date in the DB. By being unique per user, with this we want each time the user logs in the token is refreshed.
+To remember the user, a cookie is created with an unique ID (it's only possible to remember the user in one place). The client has a N of tries to authenticate, if he fails them the account will be frozen.
 
-Client side send all time token in header (if client have it in LocalStorage...). I use localStorage but it isn`t valid in all browsers u can use polyfill.
+Client-side : It's based in the LocalStore.user and LocalStore.token received from the server when the user authenticates.
+Through js angular and his interceptor method, if it contains a LocalStore.token valor it will be sended as header authorization (config.headers.Authorization = localStorage.token) on each request.
 
-The user only has N possibilities for authentication and when that fails exceeds the user is locked.
+PD: Use Polyfill because not all the browsers support LocalStorage.
 
 Version live http://sails-angular-jwt.herokuapp.com/
 
@@ -17,8 +18,31 @@ Version live http://sails-angular-jwt.herokuapp.com/
 ```bash
 $ git clone https://github.com/MGDSoft/sails_angular_client_side_auth_jwt.git
 $ cd sails_angular-client-side-auth
-# cp config/local.example.js config/local.js
+$ cp config/local.example.js config/local.js
 $ npm install && bower install && node app
 ```
+
+# Libs used
+
+### Server Side
+
+- SailsJs
+- jws https://github.com/brianloveswords/node-jws
+- Sockets to notify realtime info
+
+### Client Side
+
+- AngularJs
+- ui.router https://github.com/angular-ui/ui-router
+- NgCookies
+- Angular Sails https://github.com/kyjan/angular-sails
+- Less
+
+
+# Todo
+
+- testing
+- captcha in register form
+- sockets auth
 
 ### All pull request are welcome !!
