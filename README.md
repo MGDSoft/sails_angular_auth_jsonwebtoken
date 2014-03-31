@@ -19,5 +19,6 @@ $ git clone https://github.com/MGDSoft/sails_angular_client_side_auth_jwt.git
 $ cd sails_angular-client-side-auth
 # cp config/local.example.js config/local.js
 $ npm install && bower install && node app
+```
 
 ### All pull request are welcome !!
