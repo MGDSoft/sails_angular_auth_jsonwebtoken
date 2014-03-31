@@ -10,6 +10,8 @@ Client side send all time token in header (if client have it in LocalStorage...)
 
 The user only has N possibilities for authentication and when that fails exceeds the user is locked.
 
+Version live http://sails-angular-jwt.herokuapp.com/
+
 # Start the project locally
 
 ```bash
