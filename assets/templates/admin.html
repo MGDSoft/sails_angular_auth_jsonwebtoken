@@ -1,0 +1,23 @@
+<h1>Admin</h1>
+<p>This view is visible to users with the administrator role.</p>
+<table data-ng-hide="loading" class="table table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Username</th>
+        <th>Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-ng-repeat="user in users">
+        <td>{{ user.id }}</td>
+        <td>
+            <i data-ng-show="user.provider == 'twitter'" class="fa fa-twitter"></i><i data-ng-show="user.provider == 'facebook'" class="fa fa-facebook-square"></i><i data-ng-show="user.provider == 'google'" class="fa fa-google-plus-square"></i><i data-ng-show="user.provider == 'linkedin'" class="fa fa-linkedin"></i>
+            {{ user.username }}
+        </td>
+        <td>
+            <span data-ng-class="{&quot;label-info&quot;: user.role.title == userRoles.user.title, &quot;label-success&quot;: user.role.title == userRoles.admin.title}" class="label">{{ user.role.title }}</span>
+        </td>
+    </tr>
+    </tbody>
+</table>

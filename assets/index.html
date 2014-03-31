@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="angular-client-side-auth">
+<head><title></title><!-- Viewport mobile tag for sensible mobile support-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- STYLES-->
+    <link href="/styles/importer.css" rel="stylesheet">
+    <!-- STYLES END--></head>
+<body data-ng-cloak>
+<div data-ng-controller="NavCtrl" class="navbar">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <ul class="nav nav-tabs">
+                <li data-access-level="accessLevels.anon" active-nav>
+                    <a href="/login">Log in</a>
+                </li>
+                <li data-access-level="accessLevels.anon" active-nav>
+                    <a href="/register">Register</a>
+                </li>
+                <li data-access-level="accessLevels.user" active-nav>
+                    <a href="/">Home</a>
+                </li>
+                <li data-access-level="accessLevels.user" active-nav>
+                    <a href="/private">Private</a>
+                </li>
+                <li data-access-level="accessLevels.admin" active-nav>
+                    <a href="/admin">Admin</a>
+                </li>
+                <li data-access-level="accessLevels.user">
+                    <a href="" data-ng-click="logout()">Log out</a>
+                </li>
+                <li data-access-level="accessLevels.user">
+                    <a href="" data-ng-click="delete()">Delete Accout</a>
+                </li>
+                <div id="userInfo" data-access-level="accessLevels.user" class="pull-right">
+                    Welcome <strong> {{ user.username }} </strong>
+                    <span data-ng-class="{'label-info': user.role.title == userRoles.user.title, 'label-success': user.role.title == userRoles.admin.title}" class="label">
+                        {{ user.role.title }}
+                    </span>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div ng-include="'/templates/others/errors.html'"></div>
+    <div data-ui-view="" class="vb-offset-5"></div>
+    <div ng-include="'/templates/others/messages_socket.html'"></div>
+</div>
+
+<script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
+<script type="text/javascript" src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script type="text/javascript" src="/js/socket.io.js"></script>
+<script type="text/javascript" src="/js/sails.io.js"></script>
+<script type="text/javascript" src="/bower_components/angular-sails/dist/angular-sails.min.js"></script>
+
+<script type="text/javascript" src="/js/app/routingConfig.js"></script>
+<script type="text/javascript" src="/js/app/app.js"></script>
+<script type="text/javascript" src="/js/app/services.js"></script>
+<script type="text/javascript" src="/js/app/controllers.js"></script>
+<script type="text/javascript" src="/js/app/filters.js"></script>
+<script type="text/javascript" src="/js/app/directives.js"></script>
+<script type="text/javascript" src="/js/app/constantsPublic.js"></script>
+<script type="text/javascript" src="//www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+
+</body>
+</html>
