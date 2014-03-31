@@ -17,7 +17,7 @@ Version live http://sails-angular-jwt.herokuapp.com/
 
 ```bash
 $ git clone https://github.com/MGDSoft/sails_angular_client_side_auth_jwt.git
-$ cd sails_angular-client-side-auth
+$ cd sails_angular_client_side_auth_jwt
 $ cp config/local.example.js config/local.js
 $ npm install && bower install && node app
 ```
@@ -41,8 +41,10 @@ $ npm install && bower install && node app
 
 # Todo
 
+- Fix some bug
+- Change http petitions by sockets petitions
 - testing
 - captcha in register form
-- sockets auth
+
 
 ### All pull request are welcome !!
