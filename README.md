@@ -27,7 +27,7 @@ $ npm install && node app
 # Test server side
 
 ```bash
-$ npm install --dev
+$ npm install --test
 $ mocha
 ```
 
