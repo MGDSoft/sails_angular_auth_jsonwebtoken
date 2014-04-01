@@ -28,7 +28,10 @@
         "jws"                 : "~0.2.5",
         "sails-memory"        : "~0.10.0-rc1",
         "bower"               : "~1.3.1",
-        "recaptcha"           : "~1.2.0"
+        "recaptcha"           : "~1.2.0",
+        "enpeem": "~0.1.1",
+        "lodash": "~2.4.1",
+        "captains-log": "~0.11.7"
     },
     "testDependencies": {
         "mocha"    : "~1.18.2",
