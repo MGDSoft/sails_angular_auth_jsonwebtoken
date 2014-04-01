@@ -34,6 +34,18 @@ angular.module('angular-client-side-auth')
             });
         };
 
+        $scope.prueba = (function () {
+            $sails.get("/v1/user/prueba")
+
+                .success(function (data) {
+                    console.log("ZORRASCA");
+                   console.log(data);
+                })
+                .error(function (data) {
+                    console.log(data);
+                });
+        });
+
         (function () {
 
 
@@ -118,7 +130,7 @@ angular.module('angular-client-side-auth')
 
 angular.module('angular-client-side-auth')
     .controller('RegisterCtrl',
-        ['$rootScope', '$scope', '$location', 'Auth', 'AlertService', function($rootScope, $scope, $location, Auth, AlertService) {
+        ['$rootScope', '$scope', '$location', 'Auth', 'AlertService', '$window', function($rootScope, $scope, $location, Auth, AlertService, $window) {
             $scope.role = Auth.userRoles.user;
             $scope.userRoles = Auth.userRoles;
 
@@ -126,14 +138,17 @@ angular.module('angular-client-side-auth')
                 Auth.register({
                         username: $scope.username,
                         password: $scope.password,
-                        role: $scope.role
+                        role: $scope.role,
+                        recaptcha_challenge_field: document.getElementById('recaptcha_challenge_field').value,
+                        recaptcha_response_field: document.getElementById('recaptcha_response_field').value
                     },
                     function() {
                         $location.path('/login/');
                         AlertService.addSuccess("Your account was saved!");
                     },
                     function(err) {
-                        $rootScope.error = err;
+                        $window.Recaptcha.reload();
+                        //$rootScope.error = err;
                     });
             };
         }]);

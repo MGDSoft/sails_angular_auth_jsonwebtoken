@@ -1,10 +1,10 @@
 {
-    "name"        : "sails_auth_jwt",
-    "private"     : true,
-    "version"     : "0.0.0",
-    "description" : "a Sails application",
-    "keywords"    : [],
-    "dependencies": {
+    "name"            : "sails_auth_jwt",
+    "private"         : true,
+    "version"         : "0.0.0",
+    "description"     : "a Sails application",
+    "keywords"        : [],
+    "dependencies"    : {
         "sails"               : "~0.10.0-rc4",
         "sails-disk"          : "~0.10.0",
         "rc"                  : "~0.3.3",
@@ -27,20 +27,31 @@
         "sails-mongo"         : "git://github.com/balderdashy/sails-mongo.git#0.10.0-rc2",
         "jws"                 : "~0.2.5",
         "sails-memory"        : "~0.10.0-rc1",
-        "bower"               : "~1.3.1"
+        "bower"               : "~1.3.1",
+        "recaptcha"           : "~1.2.0"
     },
-    "engines"     : {
+    "testDependencies": {
+        "mocha"    : "~1.18.2",
+        "supertest": "~0.10.0",
+        "assert"   : "~1.1.1",
+        "barrels"  : "0.0.3",
+        "chai"     : "~1.9.1"
+    },
+    "engines"         : {
         "node": "0.10.25"
     },
-    "scripts"     : {
+    "scripts"         : {
         "start"      : "node app.js",
-        "postinstall": "./node_modules/bower/bin/bower install"
+        "postinstall": "node ./node_modules/bower/bin/bower install",
+        "test"       : "mocha",
+        "prepublish" : "npm prune",
+        "pretest"    : "node test/.installDependencies"
     },
-    "main"        : "app.js",
-    "repository"  : {
+    "main"            : "app.js",
+    "repository"      : {
         "type": "git",
         "url" : "git://github.com/anonymous node/sails user/sails_auth_jwt.git"
     },
-    "author"      : "anonymous node/sails user",
-    "license"     : ""
+    "author"          : "MGDSoftware",
+    "license"         : "MIT"
 }

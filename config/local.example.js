@@ -25,6 +25,9 @@
 
 module.exports = {
 
+    RECAPTCHA_PUBLIC_KEY: '6LeU__AxGCXz4KzGBkZXto-KxyBXHv',
+    RECAPTCHA_PRIVATE_KEY: '6LeU_3hZ8P3fqg_umD8YtG',
+
     AUTH_COOKIE_TIME_DAYS: 60,
 
     LOGIN_NUMBER_OF_RETRYS: 3,

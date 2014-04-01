@@ -100,48 +100,66 @@ angular.module('angular-client-side-auth')
             },
 
             authorize : function (accessLevel, role) {
+
                 if (role === undefined) {
                     role = currentUser.role;
                 }
 
                 return accessLevel.bitMask & role.bitMask;
+
             },
             isLoggedIn: function (user) {
+
                 if (user === undefined) {
                     user = currentUser;
                 }
                 return user.role.title === userRoles.user.title || user.role.title === userRoles.admin.title;
+
             },
             register  : function (user, success, error) {
-                $http.post('/v1/user/create', user).success(function (res) {
 
-                    success();
-                }).error(error);
+                $http.post('/v1/user/create', user)
+                    .success(function (res) {
+                        success();
+                    })
+                    .error(function(err){
+                        error();
+                });
+
             },
             login     : function (user, success, error) {
-                $http.post('/v1/auth/login', user).success(function (res) {
 
-                    success(handleLoginResponseOk(res));
+                $http.post('/v1/auth/login', user)
+                    .success(function (res) {
 
-                }).error(error);
+                        success(handleLoginResponseOk(res));
+                    })
+                    .error(error)
+                ;
             },
 
             delete : function (userId, success, error) {
-                $http.delete('/v1/user/'+userId).success(function (res) {
 
-                    deleteCurrentUser(true);
-                    success();
+                $http.delete('/v1/user/'+userId)
+                    .success(function (res) {
 
-                }).error(error);
+                        deleteCurrentUser(true);
+                        success();
+                    })
+                    .error(error)
+                ;
             },
 
             logout      : function (success, error) {
-                $http.post('/v1/auth/logout').success(function () {
 
-                    deleteCurrentUser(true);
+                $http.post('/v1/auth/logout')
+                    .success(function () {
 
-                    success();
-                }).error(error);
+                        deleteCurrentUser(true);
+                        success();
+                    })
+                    .error(error)
+                ;
             },
             accessLevels: accessLevels,
             userRoles   : userRoles,

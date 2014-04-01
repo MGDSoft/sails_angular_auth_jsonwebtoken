@@ -44,6 +44,8 @@ module.exports.routes = {
     // Sockets
     'get /v1/user/subscribe': 'User.subscribe',
 
+    'get /v1/user/prueba': 'User.prueba',
+
 
     'get /*' : function(req, res, next) {
 

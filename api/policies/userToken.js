@@ -17,9 +17,7 @@ module.exports = function (req, res, next) {
     if (!authorization)
         return res.forbidden(ERROR_MSG);
 
-    decoded = JWTService.decodeToken(authorization)
-
-    console.log(decoded);
+    decoded = JWTService.decodeToken(authorization);
 
     if (!decoded || typeof decoded.payload.id == 'undefined')
         return res.forbidden(ERROR_MSG);

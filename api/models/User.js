@@ -117,9 +117,8 @@ module.exports = {
 
     },
 
-    // STATIC FUNCTIONS
-
     beforeCreate: function (values, next) {
+
 
         // Generate salt per user
         bcrypt.genSalt(function generateSalt(err, salt) {
@@ -135,7 +134,6 @@ module.exports = {
                 if (err)
                     return next(err);
 
-                console.log(encryptedPassword);
                 values.password = encryptedPassword;
                 return next();
             });

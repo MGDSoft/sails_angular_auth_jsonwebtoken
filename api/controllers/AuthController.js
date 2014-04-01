@@ -44,16 +44,16 @@ module.exports = {
                 return res.serverError('login crash');
 
             if (!user || user.provider)
-                return res.badRequest('Incorrect username.');
+                return res.invalidDataRequest('Incorrect username.');
 
             if (user.locked)
-                return res.badRequest('User was locked.');
+                return res.invalidDataRequest('User was locked.');
 
             if (!user.validPassword(password)){
 
                 user.sumFailsLoginNumber();
                 user.save();
-                return res.badRequest('Invalid password');
+                return res.invalidDataRequest('Invalid password');
             }
 
             res.json(200, responseOkLogin(user, remember, true));

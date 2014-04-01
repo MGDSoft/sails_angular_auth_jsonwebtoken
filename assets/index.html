@@ -31,6 +31,9 @@
                 <li data-access-level="accessLevels.user">
                     <a href="" data-ng-click="delete()">Delete Accout</a>
                 </li>
+                <li >
+                    <a href="" data-ng-click="prueba()">Prueba Pending</a>
+                </li>
                 <div id="userInfo" data-access-level="accessLevels.user" class="pull-right">
                     Welcome <strong> {{ user.username }} </strong>
                     <span data-ng-class="{'label-info': user.role.title == userRoles.user.title, 'label-success': user.role.title == userRoles.admin.title}" class="label">
@@ -63,7 +66,8 @@
 <script type="text/javascript" src="/js/app/filters.js"></script>
 <script type="text/javascript" src="/js/app/directives.js"></script>
 <script type="text/javascript" src="/js/app/constantsPublic.js"></script>
-<script type="text/javascript" src="//www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+
+<script type="text/javascript" src="/bower_components/angular-re-captcha/angular-re-captcha.js"></script>
 
 </body>
 </html>

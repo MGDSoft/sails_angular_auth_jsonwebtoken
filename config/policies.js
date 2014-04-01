@@ -20,6 +20,7 @@ module.exports.policies = {
 
     'UserController': {
         find: ['userToken', 'userAdmin'],
+        destroy: ['userToken', 'userSameWhatUpdate'],
         '*': true
     }
     /*

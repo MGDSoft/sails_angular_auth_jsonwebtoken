@@ -1,8 +1,16 @@
 'use strict';
 
-angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngSails'])
+angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngSails', 'reCAPTCHA'])
 
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$sailsProvider','reCAPTCHAProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $sailsProvider, reCAPTCHAProvider) {
+
+        // required: please use your own key :)
+        reCAPTCHAProvider.setPublicKey('6LeU__ASAAAAAB5B85GCXz4KzGBkZXto-KxyBXHv');
+
+        // optional: gets passed into the Recaptcha.create call
+//        reCAPTCHAProvider.setOptions({
+//            theme: 'clean'
+//        });
 
         var access = routingConfig.accessLevels;
 
@@ -123,6 +131,30 @@ angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngSails']
 
         $locationProvider.html5Mode(true);
 
+        // sockets requests Pending update ngSails
+//        $sailsProvider.interceptors.push(['$q', function ($q) {
+//            return{
+//                request: function (config) {
+//                    console.log("troll");
+//                    // ... stuff
+//                    return config || $q.when(config);
+//                },
+//                response: function (response) {
+//                    // ... stuff
+//                    return response || $q.when(response);
+//                },
+//                requestError: function (config) {
+//                    // ... stuff
+//                    return $q.reject(reason);
+//                },
+//                responseError: function (response) {
+//                    // ... stuff
+//                    return $q.reject(reason);
+//                }
+//            }
+//        }]);
+
+        // http requests
         $httpProvider.interceptors.push(['$q', '$location', 'AlertService', '$log', '$injector', function($q, $location, AlertService, $log, $injector) {
 
             return {
