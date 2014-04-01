@@ -1,0 +1,10 @@
+language: node_js
+
+node_js:
+  - "0.10"
+
+before_script:
+  - cp config/local.example.js config/local.js
+
+script:
+    - npm test

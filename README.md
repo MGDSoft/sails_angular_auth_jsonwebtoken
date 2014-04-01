@@ -27,8 +27,7 @@ $ npm install && node app
 # Test server side
 
 ```bash
-$ npm install --test
-$ mocha
+$ npm test
 ```
 
 # Libs used
@@ -52,7 +51,7 @@ $ mocha
 
 # Todo
 
-- Change http petitions by sockets petitions
+- Change http petitions to sockets petitions
 - testing client side
 
 
