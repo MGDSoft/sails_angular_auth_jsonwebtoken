@@ -1,6 +1,6 @@
 var bcrypt = require('bcrypt')
     ,userRoles = require('../../assets/js/app/routingConfig').userRoles
-    ,jwt = require('jws')
+
 ;
 
 /**
@@ -79,13 +79,7 @@ module.exports = {
 
             this.tokenDate = Date.now();
 
-            var token = jwt.sign({
-                header: { alg: 'hs256' },
-                payload: { id: this.id },
-                secret: this.salt + this.tokenDate
-            });
-
-            return token;
+            return JWTService.generateToken(this);
         },
 
         generateRememberCode: function () {
@@ -135,15 +129,13 @@ module.exports = {
 
             values.salt = salt;
 
-            if (values.provider)
-                return next();
-
             // Password encripted by his salt
             bcrypt.hash(values.password, salt, function passwordEncrypted(err, encryptedPassword) {
 
                 if (err)
                     return next(err);
 
+                console.log(encryptedPassword);
                 values.password = encryptedPassword;
                 return next();
             });

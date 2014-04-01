@@ -11,7 +11,7 @@ var userRoles = require('../../assets/js/app/routingConfig').userRoles
  */
 module.exports = function (req, res, next) {
 
-    UserService.getUserFromHeaders(req, function (err, user){
+    JWTService.getUserFromHeaders(req, function (err, user){
 
         if (err || !user || user.locked)
             return res.forbidden('You are not permitted to perform this action. 1');

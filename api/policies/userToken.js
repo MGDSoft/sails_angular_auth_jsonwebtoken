@@ -1,5 +1,3 @@
-var jwt = require('jws');
-
 /**
  * userLogged
  *
@@ -12,32 +10,26 @@ var jwt = require('jws');
 
 module.exports = function (req, res, next) {
 
-    var  decode ,userId
+    var  decoded
         ,ERROR_MSG="Invalid token"
         ,authorization = req.headers['authorization'];
 
     if (!authorization)
         return res.forbidden(ERROR_MSG);
 
-    try {
+    decoded = JWTService.decodeToken(authorization)
 
-        decode = jwt.decode(authorization);
-        userId = JSON.parse(decode.payload).id;
+    console.log(decoded);
 
-        sails.log.debug("Token: user id " + userId);
-
-    } catch (err) {
-
-        sails.log.info( "Token validation, error "+ err );
+    if (!decoded || typeof decoded.payload.id == 'undefined')
         return res.forbidden(ERROR_MSG);
-    }
 
-    User.findOne(userId).done(function (err, user){
+    User.findOne(decoded.payload.id).done(function (err, user){
 
         if (!user || err)
             return res.forbidden(ERROR_MSG);
 
-        if (!jwt.verify(authorization, user.salt + user.tokenDate ))
+        if (!JWTService.isValidToken(authorization, user ))
             return res.forbidden(ERROR_MSG);
 
         return next();

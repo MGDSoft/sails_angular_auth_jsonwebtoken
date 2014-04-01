@@ -14,7 +14,7 @@ module.exports = {
         req.logout();
         res.send(200);
 
-        UserService.getUserFromHeaders(req, function (err, user) {
+        JWTService.getUserFromHeaders(req, function (err, user) {
 
             if (err || !user)
                 return;
