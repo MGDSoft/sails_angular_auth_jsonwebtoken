@@ -15,6 +15,7 @@
     "jquery": "~2.1.0",
     "angular-socket-io": "~0.4.1",
     "angular-sails": "~1.0.3",
-    "angular-re-captcha": "~0.0.1"
+    "angular-re-captcha": "~0.0.1",
+    "angular-translate": "~2.0.1"
   }
 }

@@ -2,12 +2,10 @@
     <div class="row">
         <div class="col-md-4 col-md-push-6">
             <div data-ng-controller="NavCtrl" class="list-group">
-                <div class="list-group-item"><strong>Nested menu</strong></div>
-                <a href="/private" active-nav class="list-group-item">Nested view</a>
-                <a href="/private/nested" active-nav class="list-group-item">Another nested view</a>
-                <a href="/private/admin" active-nav data-access-level="accessLevels.admin" class="list-group-item">
-                    A nested admin view
-                </a>
+                <div class="list-group-item"><strong translate="private.layout.title"></strong></div>
+                <a href="/private" active-nav class="list-group-item" translate="private.layout.row1"></a>
+                <a href="/private/nested" active-nav class="list-group-item" translate="private.layout.row2"></a>
+                <a href="/private/admin" active-nav data-access-level="accessLevels.admin" class="list-group-item" translate="private.layout.row3"></a>
             </div>
         </div>
         <div data-ui-view class="col-md-6 col-md-pull-4"></div>

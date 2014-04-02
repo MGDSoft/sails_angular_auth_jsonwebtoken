@@ -1,18 +1,17 @@
-<h1>Admin</h1>
-<p>This view is visible to users with the administrator role.</p>
+<h1 translate="admin.title"></h1>
+<p translate="admin.desc"></p>
 <table data-ng-hide="loading" class="table table-striped">
     <thead>
     <tr>
-        <th>#</th>
-        <th>Username</th>
-        <th>Role</th>
+        <th translate="admin.col_1"></th>
+        <th translate="admin.col_username"></th>
+        <th translate="admin.col_role"></th>
     </tr>
     </thead>
     <tbody>
     <tr data-ng-repeat="user in users">
         <td>{{ user.id }}</td>
         <td>
-            <i data-ng-show="user.provider == 'twitter'" class="fa fa-twitter"></i><i data-ng-show="user.provider == 'facebook'" class="fa fa-facebook-square"></i><i data-ng-show="user.provider == 'google'" class="fa fa-google-plus-square"></i><i data-ng-show="user.provider == 'linkedin'" class="fa fa-linkedin"></i>
             {{ user.username }}
         </td>
         <td>

@@ -1,12 +1,13 @@
-<h1>Register</h1>
+<h1 translate="register.title">Register</h1>
+<p translate="register.desc"></p><br>
 <form ng-submit="register()" name="registerForm" role="form" class="form-horizontal">
-    <div class="form-group"><label for="username" class="control-label col-sm-2">Username</label>
+    <div class="form-group"><label for="username" class="control-label col-sm-2" translate="register.form_username_label"></label>
 
         <div class="col-sm-10">
             <input type="text" data-ng-model="username" id="username" placeholder="Username" name="username" required data-ng-minlength="1" data-ng-maxlength="20" autofocus class="form-control">
         </div>
     </div>
-    <div class="form-group"><label for="password" class="control-label col-sm-2">Password</label>
+    <div class="form-group"><label for="password" class="control-label col-sm-2" translate="register.form_password_label">Password</label>
 
         <div class="col-sm-10">
             <input type="password" data-ng-model="password" id="password" placeholder="Password" name="password" required data-ng-minlength="5" data-ng-maxlength="60" class="form-control">
@@ -14,13 +15,16 @@
     </div>
 
     <div class="form-group">
-        <label for="password" class="control-label col-sm-2">Rol</label>
+        <label for="password" class="control-label col-sm-2" translate="register.form_role_label">Rol</label>
         <div class="radio radio-inline">
-            <label><input type="radio" name="role" data-ng-model="role" id="adminRole" data-ng-value="userRoles.admin">Administrator</label>
+            <label>
+                <input type="radio" name="role" data-ng-model="role" id="adminRole" data-ng-value="userRoles.admin" translate="register.form_role_admin_label">
+            </label>
         </div>
         <div class="radio radio-inline">
-            <label><input type="radio" name="role" data-ng-model="role" id="adminRole" data-ng-value="userRoles.user">Normal
-                user</label>
+            <label>
+                <input type="radio" name="role" data-ng-model="role" id="adminRole" data-ng-value="userRoles.user" translate="register.form_role_username_label">
+            </label>
         </div>
     </div>
     <div class="form-group">
@@ -30,18 +34,18 @@
     </div>
     <div class="form-group">
         <div class="controls col-sm-offset-1">
-            <button type="submit" data-ng-disabled="registerForm.$invalid" class="btn btn-lg">Submit</button>
+            <button type="submit" data-ng-disabled="registerForm.$invalid" class="btn btn-lg" translate="register.form_submit_label"></button>
         </div>
     </div>
-    <div ng-show="registerForm.$invalid &amp;&amp; registerForm.$dirty" class="alert alert-danger"><strong>Please
+    <div ng-show="registerForm.$invalid &amp;&amp; registerForm.$dirty" class="alert alert-danger"><strong translate="register.form_error_title">Please
         correct the following errors:</strong>
         <ul>
-            <li ng-show="registerForm.username.$error.required">Username is required</li>
-            <li ng-show="registerForm.username.$error.minlength">Username has to be at least 1 character long</li>
-            <li ng-show="registerForm.username.$error.maxlength">Username has to be at most 20 character long</li>
-            <li ng-show="registerForm.password.$error.required">Password is required</li>
-            <li ng-show="registerForm.password.$error.minlength">Password must be at least 5 characters long</li>
-            <li ng-show="registerForm.password.$error.maxlength">Password must be at most 60 characters long</li>
+            <li ng-show="registerForm.username.$error.required" translate="register.form_error_username_required">Username is required</li>
+            <li ng-show="registerForm.username.$error.minlength" translate="register.form_error_username_less_lenght">Username has to be at least 1 character long</li>
+            <li ng-show="registerForm.username.$error.maxlength" translate="register.form_error_username_more_lenght">Username has to be at most 20 character long</li>
+            <li ng-show="registerForm.password.$error.required" translate="register.form_error_password_required">Password is required</li>
+            <li ng-show="registerForm.password.$error.minlength" translate="register.form_error_password_less_lenght">Password must be at least 5 characters long</li>
+            <li ng-show="registerForm.password.$error.maxlength" translate="register.form_error_password_more_lenght">Password must be at most 60 characters long</li>
         </ul>
     </div>
 </form>

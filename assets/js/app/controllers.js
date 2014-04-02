@@ -3,11 +3,16 @@
 /* Controllers */
 
 angular.module('angular-client-side-auth')
-    .controller('NavCtrl', ['$rootScope', '$scope', '$location', 'Auth', '$log', '$sails', 'AlertService', function($rootScope, $scope, $location, Auth, $log, $sails, AlertService) {
+    .controller('NavCtrl', ['$rootScope', '$scope', '$location', 'Auth', '$log', '$sails', 'AlertService', '$translate',
+        function($rootScope, $scope, $location, Auth, $log, $sails, AlertService, $translate) {
 
         $scope.user = Auth.user;
         $scope.userRoles = Auth.userRoles;
         $scope.accessLevels = Auth.accessLevels;
+
+        $scope.changeLanguage = function (langKey) {
+            $translate.use(langKey);
+        };
 
         $scope.logout = function() {
             Auth.logout(function() {
