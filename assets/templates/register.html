@@ -18,12 +18,12 @@
         <label for="password" class="control-label col-sm-2" translate="register.form_role_label">Rol</label>
         <div class="radio radio-inline">
             <label>
-                <input type="radio" name="role" data-ng-model="role" id="adminRole" data-ng-value="userRoles.admin" translate="register.form_role_admin_label">
+                <input type="radio" name="role" data-ng-model="role" id="adminRole" data-ng-value="userRoles.admin"> {{ 'register.form_role_admin_label' | translate }}
             </label>
         </div>
         <div class="radio radio-inline">
             <label>
-                <input type="radio" name="role" data-ng-model="role" id="adminRole" data-ng-value="userRoles.user" translate="register.form_role_username_label">
+                <input type="radio" name="role" data-ng-model="role" id="adminRole" data-ng-value="userRoles.user"> {{ 'register.form_role_user_label' | translate }}
             </label>
         </div>
     </div>
