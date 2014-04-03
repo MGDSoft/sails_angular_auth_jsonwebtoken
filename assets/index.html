@@ -5,7 +5,7 @@
     <!-- STYLES-->
     <link href="/styles/importer.css" rel="stylesheet">
     <!-- STYLES END--></head>
-<body data-ng-cloak>
+<body>
 <div data-ng-controller="NavCtrl" class="navbar">
     <div class="navbar-inner">
         <div class="container-fluid">
@@ -54,19 +54,23 @@
 </div>
 <div class="container">
     <div ng-include="'/templates/others/errors.html'"></div>
-    <div data-ui-view="" class="vb-offset-5"></div>
+    <div class="ui-view-container">
+        <div ui-view ng-class="slideDir"></div>
+    </div>
     <div ng-include="'/templates/others/messages_socket.html'"></div>
 </div>
 
 <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
 <script type="text/javascript" src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
 <script type="text/javascript" src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<!--<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>-->
+<!--<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>-->
 <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.min.js"></script>
 <script type="text/javascript" src="/js/socket.io.js"></script>
 <script type="text/javascript" src="/js/sails.io.js"></script>
 <script type="text/javascript" src="/bower_components/angular-sails/dist/angular-sails.min.js"></script>
+<script type="text/javascript" src="/bower_components/angular-animate/angular-animate.min.js"></script>
+<script type="text/javascript" src="/bower_components/angular-re-captcha/angular-re-captcha.js"></script>
 
 <script type="text/javascript" src="/js/app/routingConfig.js"></script>
 <script type="text/javascript" src="/js/app/app.js"></script>
@@ -77,9 +81,7 @@
 <script type="text/javascript" src="/js/app/constantsPublic.js"></script>
 <script type="text/javascript" src="/js/app/langs/lang_en-en.js"></script>
 <script type="text/javascript" src="/js/app/langs/lang_es-es.js"></script>
-<!--<script type="text/javascript" src="/js/app/i18n/angular-locale_es-es.js"></script>-->
 
-<script type="text/javascript" src="/bower_components/angular-re-captcha/angular-re-captcha.js"></script>
 
 </body>
 </html>

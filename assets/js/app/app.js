@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngSails', 'reCAPTCHA', 'pascalprecht.translate'])
+angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngAnimate', 'ngSails', 'reCAPTCHA', 'pascalprecht.translate'])
 
     .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$sailsProvider', 'reCAPTCHAProvider', '$translateProvider'
         , function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $sailsProvider, reCAPTCHAProvider, $translateProvider) {

@@ -39,17 +39,6 @@ angular.module('angular-client-side-auth')
             });
         };
 
-        $scope.prueba = (function () {
-            $sails.get("/v1/user/prueba")
-
-                .success(function (data) {
-                    console.log("ZORRASCA");
-                   console.log(data);
-                })
-                .error(function (data) {
-                    console.log(data);
-                });
-        });
 
         (function () {
 

@@ -42,6 +42,7 @@ var translationsEN = {
     'register.form_error_password_required' : 'Password is required',
     'register.form_error_password_less_lenght' : 'Password must be at least 5 characters long',
     'register.form_error_password_more_lenght' : 'Password must be at most 60 characters long',
+    'register.form_captcha_required' : 'Captcha is required',
 
     // template/home
     'home.title' : 'Home, Hello!',
@@ -59,7 +60,7 @@ var translationsEN = {
 
     // template/private/nested
     'private.nested.title' : 'Private view',
-    'private.nested.desc' : 'This nested view is visible to logged in users',
+    'private.nested.desc' : 'Other nested view',
 
     // template/private/nested_admin
     'private.nested_admin.title' : 'Private view',

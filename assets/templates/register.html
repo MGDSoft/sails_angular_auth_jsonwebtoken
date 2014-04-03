@@ -1,5 +1,6 @@
 <h1 translate="register.title">Register</h1>
 <p translate="register.desc"></p><br>
+
 <form ng-submit="register()" name="registerForm" role="form" class="form-horizontal">
     <div class="form-group"><label for="username" class="control-label col-sm-2" translate="register.form_username_label"></label>
 
@@ -37,15 +38,18 @@
             <button type="submit" data-ng-disabled="registerForm.$invalid" class="btn btn-lg" translate="register.form_submit_label"></button>
         </div>
     </div>
-    <div ng-show="registerForm.$invalid &amp;&amp; registerForm.$dirty" class="alert alert-danger"><strong translate="register.form_error_title">Please
-        correct the following errors:</strong>
+
+    <div ng-show="registerForm.$invalid &amp;&amp; registerForm.$dirty" class="alert alert-danger">
+
+        <strong translate="register.form_error_title"></strong>
         <ul>
-            <li ng-show="registerForm.username.$error.required" translate="register.form_error_username_required">Username is required</li>
-            <li ng-show="registerForm.username.$error.minlength" translate="register.form_error_username_less_lenght">Username has to be at least 1 character long</li>
-            <li ng-show="registerForm.username.$error.maxlength" translate="register.form_error_username_more_lenght">Username has to be at most 20 character long</li>
-            <li ng-show="registerForm.password.$error.required" translate="register.form_error_password_required">Password is required</li>
-            <li ng-show="registerForm.password.$error.minlength" translate="register.form_error_password_less_lenght">Password must be at least 5 characters long</li>
-            <li ng-show="registerForm.password.$error.maxlength" translate="register.form_error_password_more_lenght">Password must be at most 60 characters long</li>
+            <li ng-show="registerForm.username.$error.required" translate="register.form_error_username_required"></li>
+            <li ng-show="registerForm.username.$error.minlength" translate="register.form_error_username_less_lenght"></li>
+            <li ng-show="registerForm.username.$error.maxlength" translate="register.form_error_username_more_lenght"></li>
+            <li ng-show="registerForm.password.$error.required" translate="register.form_error_password_required"></li>
+            <li ng-show="registerForm.password.$error.minlength" translate="register.form_error_password_less_lenght"></li>
+            <li ng-show="registerForm.password.$error.maxlength" translate="register.form_error_password_more_lenght"></li>
+            <li ng-show="registerForm.recaptcha_response_field.$error" translate="register.form_captcha_required"></li>
         </ul>
     </div>
 </form>

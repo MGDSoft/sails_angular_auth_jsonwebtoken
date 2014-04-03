@@ -42,6 +42,7 @@ var translationsES = {
     'register.form_error_password_required' : 'Contraseña es requerida',
     'register.form_error_password_less_lenght' : 'La contraseña debe tener como poco 5 caracteres',
     'register.form_error_password_more_lenght' : 'La contraseña debe tener como maximo 60 caracteres',
+    'register.form_captcha_required' : 'El captcha es obligatorio',
 
     // template/home
     'home.title' : 'Inicio, Hola amigo!',
@@ -59,7 +60,7 @@ var translationsES = {
 
     // template/private/nested
     'private.nested.title' : 'Vista privada',
-    'private.nested.desc' : 'Vista visible para usuarios logeados',
+    'private.nested.desc' : 'Otra vista anidada',
 
     // template/private/nested_admin
     'private.nested_admin.title' : 'Vista privada',

@@ -48,6 +48,7 @@ $ npm test
 - Less
 - Recaptcha https://github.com/mllrsohn/angular-re-captcha
 - angular-translate https://github.com/angular-translate/angular-translate
+- animations
 
 
 # Todo

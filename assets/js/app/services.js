@@ -177,7 +177,7 @@ angular.module('angular-client-side-auth')
     });
 
 angular.module('angular-client-side-auth')
-    .factory('AlertService', function ($rootScope) {
+    .factory('AlertService', function ($rootScope, $timeout) {
         var alertService = {};
 
         // create an array of alerts available globally
@@ -186,7 +186,10 @@ angular.module('angular-client-side-auth')
 
 
         function add(type, msg) {
-            alertService.removeAll();
+
+            if($rootScope.alerts.length > 0)
+                $timeout( (function () { $rootScope.alerts.shift() }), 2000);
+
             $rootScope.alerts.push({'type': type, 'msg': msg});
         };
 
