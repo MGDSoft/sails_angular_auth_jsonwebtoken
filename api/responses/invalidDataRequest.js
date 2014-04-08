@@ -36,11 +36,5 @@ module.exports = function badRequest(validationErrors) {
     result.validationErrors = validationErrors;
   }
 
-  // For requesters expecting JSON, everything works like you would expect-- a simple JSON response
-  // indicating the 400: Bad Request status with relevant information will be returned. 
-  if (req.wantsJSON) {
-    return res.json(result, result.status);
-  }
-
   return res.json(result, result.status);
 };

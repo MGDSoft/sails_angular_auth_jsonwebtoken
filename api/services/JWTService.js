@@ -2,15 +2,13 @@ var jwt = require('jws');
 
 module.exports = {
 
+
     isValidToken: function(token, user, done)
     {
         if (!user)
             return false;
 
-        if (!jwt.verify(token, user.salt + user.tokenDate ))
-            return false;
-
-        return true;
+        return jwt.verify(token, user.salt + user.tokenDate);
     },
 
     decodeToken: function(token)

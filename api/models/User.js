@@ -55,6 +55,14 @@ module.exports = {
             type: 'json'
         },
 
+        profile: {
+            columnName: 'profile_id',
+            type: 'integer',
+            foreignKey: true,
+            references: 'user_profile',
+            on: 'id',
+            defaultsTo: null
+        },
 
         validPassword: function (password) {
 
@@ -84,7 +92,7 @@ module.exports = {
 
         generateRememberCode: function () {
 
-            var obj= {key: bcrypt.genSaltSync(), id: this.id, time: (Date.now() + (sails.config.AUTH_COOKIE_TIME_DAYS * 86400000))}
+            var obj = {key: bcrypt.genSaltSync(), id: this.id, time: (Date.now() + (sails.config.AUTH_COOKIE_TIME_DAYS * 86400000))};
 
             this.rememberCode = obj;
 

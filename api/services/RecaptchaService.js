@@ -23,9 +23,9 @@ module.exports = {
         recaptcha.verify(function(success, error_code) {
 
             if (!success)
-                done(error_code, false);
+                return done(error_code, false);
 
-            done(null, true);
+            return done(null, true);
 
         });
     }

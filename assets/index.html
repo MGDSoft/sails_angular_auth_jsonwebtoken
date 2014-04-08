@@ -6,6 +6,7 @@
     <link href="/styles/importer.css" rel="stylesheet">
     <!-- STYLES END--></head>
 <body>
+
 <div data-ng-controller="NavCtrl" class="navbar">
     <div class="navbar-inner">
         <div class="container-fluid">
@@ -55,7 +56,7 @@
 <div class="container">
     <div ng-include="'/templates/others/errors.html'"></div>
     <div class="ui-view-container">
-        <div ui-view ng-class="slideDir"></div>
+        <div ui-view></div>
     </div>
     <div ng-include="'/templates/others/messages_socket.html'"></div>
 </div>

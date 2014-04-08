@@ -30,7 +30,7 @@ angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngAnimate
                     }
                 })
                 .state('public.404', {
-                    url        : '/404/',
+                    url        : '/404',
                     templateUrl: '/templates/404.html'
                 });
 
@@ -44,12 +44,12 @@ angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngAnimate
                     }
                 })
                 .state('anon.login', {
-                    url        : '/login/',
+                    url        : '/login',
                     templateUrl: '/templates/login.html',
                     controller : 'LoginCtrl'
                 })
                 .state('anon.register', {
-                    url        : '/register/',
+                    url        : '/register',
                     templateUrl: '/templates/register.html',
                     controller : 'RegisterCtrl'
                 });
@@ -69,7 +69,7 @@ angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngAnimate
                 })
                 .state('user.private', {
                     abstract   : true,
-                    url        : '/private/',
+                    url        : '/private',
                     templateUrl: '/templates/private/layout.html'
                 })
                 .state('user.private.home', {
@@ -77,11 +77,11 @@ angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngAnimate
                     templateUrl: '/templates/private/home.html'
                 })
                 .state('user.private.nested', {
-                    url        : 'nested/',
+                    url        : '/nested',
                     templateUrl: '/templates/private/nested.html'
                 })
                 .state('user.private.admin', {
-                    url        : 'admin/',
+                    url        : '/admin',
                     templateUrl: '/templates/private/nested_admin.html',
                     data       : {
                         access: access.admin
@@ -98,66 +98,14 @@ angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngAnimate
                     }
                 })
                 .state('admin.admin', {
-                    url        : '/admin/',
+                    url        : '/admin',
                     templateUrl: '/templates/admin.html',
                     controller : 'AdminCtrl'
                 });
 
             $urlRouterProvider.otherwise('/404');
 
-            // FIX for trailing slashes. Gracefully "borrowed" from https://github.com/angular-ui/ui-router/issues/50
-            $urlRouterProvider.rule(function ($injector, $location) {
-                if ($location.protocol() === 'file')
-                    return;
-
-                var path = $location.path()
-                // Note: misnomer. This returns a query object, not a search string
-                    , search = $location.search()
-                    , params
-                    ;
-
-                // check to see if the path already ends in '/'
-                if (path[path.length - 1] === '/') {
-                    return;
-                }
-
-                // If there was no search string / query params, return with a `/`
-                if (Object.keys(search).length === 0) {
-                    return path + '/';
-                }
-
-                // Otherwise build the search string and return a `/?` prefix
-                params = [];
-                angular.forEach(search, function (v, k) {
-                    params.push(k + '=' + v);
-                });
-                return path + '/?' + params.join('&');
-            });
-
             $locationProvider.html5Mode(true);
-
-            // sockets requests Pending update ngSails
-//        $sailsProvider.interceptors.push(['$q', function ($q) {
-//            return{
-//                request: function (config) {
-//                    console.log("troll");
-//                    // ... stuff
-//                    return config || $q.when(config);
-//                },
-//                response: function (response) {
-//                    // ... stuff
-//                    return response || $q.when(response);
-//                },
-//                requestError: function (config) {
-//                    // ... stuff
-//                    return $q.reject(reason);
-//                },
-//                responseError: function (response) {
-//                    // ... stuff
-//                    return $q.reject(reason);
-//                }
-//            }
-//        }]);
 
             // http requests
             $httpProvider.interceptors.push(['$q', '$location', 'AlertService', '$log', '$injector', function ($q, $location, AlertService, $log, $injector) {

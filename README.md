@@ -1,4 +1,4 @@
-sails_angular_client_side_auth_jwt
+sails_angular_auth_jwt
 ==================================
 
 [![Build Status](https://secure.travis-ci.org/MGDSoft/sails_angular_auth_jsonwebtoken.png)](http://travis-ci.org/MGDSoft/lolreferrals)

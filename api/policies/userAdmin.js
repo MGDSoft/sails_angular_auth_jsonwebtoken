@@ -19,7 +19,7 @@ module.exports = function (req, res, next) {
         if (user.role.bitMask != userRoles.admin.bitMask)
             return res.forbidden('You are not permitted to perform this action. 2');
 
-        next();
+        return next();
 
     });
 

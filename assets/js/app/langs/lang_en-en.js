@@ -39,6 +39,7 @@ var translationsEN = {
     'register.form_error_username_required' : 'Username is required',
     'register.form_error_username_less_lenght' : 'Username has to be at least 1 character long',
     'register.form_error_username_more_lenght' : 'Username has to be at most 20 character long',
+    'register.form_error_username_validation_username' : 'Username already exists',
     'register.form_error_password_required' : 'Password is required',
     'register.form_error_password_less_lenght' : 'Password must be at least 5 characters long',
     'register.form_error_password_more_lenght' : 'Password must be at most 60 characters long',

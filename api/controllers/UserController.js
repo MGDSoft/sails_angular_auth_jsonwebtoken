@@ -9,46 +9,9 @@ var passport = require('passport');
 
 module.exports = {
 
-    create: function (req, res) {
-
-        var username = req.param('username'),
-            password = req.param('password'),
-            role = req.param('role')
-        ;
-
-        if (! username || !password || !role)
-            return res.invalidDataRequest('Data are required');
-
-        User.findOneByUsername(username).done(function (err, user) {
-
-            if (err)
-                return res.serverError(err);
-
-            if (user)
-                return res.invalidDataRequest('The username is not unique');
-
-            RecaptchaService.isValid(req, function (err, isValid) {
-
-                if ( !isValid || err )
-                    return res.invalidDataRequest('captcha is not valid');
-
-                User.create({
-
-                    username: username,
-                    password: password,
-                    role    : role
-
-                }).done(function (err, user) {
-
-                    if (err || !user)
-                        return res.serverError(err);
-
-                    res.send(201);
-
-                });
-            });
-         });
-
+    usernameNotExist: function (req, res) {
+        // Used policy
+        res.send(200);
     },
 
     subscribe: function (req, res) {

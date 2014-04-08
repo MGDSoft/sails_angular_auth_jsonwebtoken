@@ -35,7 +35,7 @@ angular.module('angular-client-side-auth')
             Auth.delete(Auth.user.id , function() {
                 $location.path('/login');
             }, function() {
-                $location.path('/login');
+
             });
         };
 
@@ -137,7 +137,7 @@ angular.module('angular-client-side-auth')
                         recaptcha_response_field: document.getElementById('recaptcha_response_field').value
                     },
                     function() {
-                        $location.path('/login/');
+                        $location.path('/login');
                         AlertService.addSuccess("Your account was saved!");
                     },
                     function(err) {

@@ -116,22 +116,32 @@ angular.module('angular-client-side-auth')
                 return user.role.title === userRoles.user.title || user.role.title === userRoles.admin.title;
 
             },
+            validateUsername: function (username, success, error) {
+
+                $http.get('/v1/user/validation/username/' + username)
+                    .success(function (res) {
+                        success(res);
+                    })
+                    .error(function(err){
+                        error();
+                    });
+
+            },
             register  : function (user, success, error) {
 
                 $http.post('/v1/user/create', user)
                     .success(function (res) {
-                        success();
+                        success(res);
                     })
-                    .error(function(err){
-                        error();
-                });
+                    .error(error)
+
+                ;
 
             },
             login     : function (user, success, error) {
 
                 $http.post('/v1/auth/login', user)
                     .success(function (res) {
-
                         success(handleLoginResponseOk(res));
                     })
                     .error(error)

@@ -65,3 +65,25 @@ angular.module('angular-client-side-auth').directive('activeNav', ['$location', 
     }
 
 }]);
+
+angular.module('angular-client-side-auth').directive('validationUsername', function(Auth) {
+    return {
+        require: 'ngModel',
+        link: function(scope, elm, attrs, ctrl) {
+
+            elm.on('blur', function (evt) {
+                scope.$apply(function () {
+                    Auth.validateUsername(elm.val(), function(res){
+
+                        ctrl.$setValidity('validationUsername', true);
+                        return elm.val();
+
+                    }, function(){
+                        ctrl.$setValidity('validationUsername', false);
+                        return undefined;
+                    });
+                });
+            });
+        }
+    };
+});

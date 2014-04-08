@@ -31,23 +31,21 @@ module.exports.routes = {
         view: 'index.html'
     },
 
-    'post /v1/user/create': 'User.create',
+    'post /v1/user/create'                      : 'User.create',
+    'post /v1/user/create'                      : 'User.create',
+    'delete /v1/user/:id'                       : 'User.destroy',
+    'get /v1/user'                              : 'User.find',
+    'get /v1/user/validation/username/:username': 'User.usernameNotExist',
 
-    'get /v1/user': 'User.find',
-
-    'post /v1/auth/login': 'Auth.login',
-
+    'post /v1/auth/login'   : 'Auth.login',
     'post /v1/auth/remember': 'Auth.remember',
-
-    'post /v1/auth/logout': 'Auth.logout',
+    'post /v1/auth/logout'  : 'Auth.logout',
 
     // Sockets
     'get /v1/user/subscribe': 'User.subscribe',
+    'get /v1/user/prueba'   : 'User.prueba',
 
-    'get /v1/user/prueba': 'User.prueba',
-
-
-    'get /*' : function(req, res, next) {
+    'get /*': function (req, res, next) {
 
         // Sockets petitions
         if (!req.path)

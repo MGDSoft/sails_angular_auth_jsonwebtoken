@@ -13,6 +13,8 @@
 
 module.exports = function serverError (errors) {
 
+    console.log("PASO POR AKI CABRON");
+
   // Get access to `req`, `res`, `sails`
   var req = this.req;
   var res = this.res;
@@ -52,16 +54,15 @@ module.exports = function serverError (errors) {
     result.errors = errorsToDisplay;
   }
 
-  // Set status code
-  res.status(result.status);
-
   // If the user-agent wants JSON, respond with JSON
   if (req.wantsJSON) {
-    return res.json(result);
+    return res.json(result, result.status);
   }
 
+    // Set status code
+    res.status(result.status);
 
-  // Make data more readable for view locals
+    // Make data more readable for view locals
   var locals = _.mapValues(result, function readabilify(value) {
     if (sails.util.isArray(value)) {
       return _.map(value, sails.util.inspect);

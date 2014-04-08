@@ -93,7 +93,7 @@ module.exports.blueprints = {
    * `rest` blueprints are enabled by default, and are suitable for a production scenario,
    * as long you take standard security precautions (combine w/ policies, etc.)
    */
-  rest: true,
+  rest: false,
 
 
   /**

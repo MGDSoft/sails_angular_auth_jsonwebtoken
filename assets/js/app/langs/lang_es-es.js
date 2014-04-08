@@ -39,6 +39,7 @@ var translationsES = {
     'register.form_error_username_required' : 'Usuario es obligatorio',
     'register.form_error_username_less_lenght' : 'El usuario debe tener al menos 1 caracter',
     'register.form_error_username_more_lenght' : 'El usuario debe tener como maximo 20 caracteres',
+    'register.form_error_username_validation_username' : 'El usuario ya existe',
     'register.form_error_password_required' : 'Contraseña es requerida',
     'register.form_error_password_less_lenght' : 'La contraseña debe tener como poco 5 caracteres',
     'register.form_error_password_more_lenght' : 'La contraseña debe tener como maximo 60 caracteres',

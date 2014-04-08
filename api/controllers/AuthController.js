@@ -36,14 +36,14 @@ module.exports = {
         ;
 
         if (!username || !password)
-            res.badRequest('Username or password is required');
+            res.invalidDataRequest('Username or password is required');
 
         User.findOneByUsername(username).done(function (err, user) {
 
             if (err)
                 return res.serverError('login crash');
 
-            if (!user || user.provider)
+            if (!user)
                 return res.invalidDataRequest('Incorrect username.');
 
             if (user.locked)

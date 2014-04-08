@@ -20,7 +20,9 @@ module.exports.policies = {
 
     'UserController': {
         find: ['userToken', 'userAdmin'],
+        create: ['usernameNotExist', 'captchaRequired'],
         destroy: ['userToken', 'userSameWhatUpdate'],
+        usernameNotExist: ['usernameNotExist'],
         '*': true
     }
     /*
