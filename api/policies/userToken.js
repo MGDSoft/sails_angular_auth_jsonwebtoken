@@ -17,7 +17,7 @@ module.exports = function (req, res, next) {
     console.log("TOKEN "+ authorization);
     console.log(req.headers['authorization']);
     console.log(req.param('token'));
-    console.log("------------");
+    console.log("---- -------");
 
     if (!authorization)
         return res.forbidden(ERROR_MSG +'1');
