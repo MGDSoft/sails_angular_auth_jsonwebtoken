@@ -1,3 +1,5 @@
+var path = require('path');
+
 /**
  * Local environment settings
  *

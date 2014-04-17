@@ -37,8 +37,7 @@
     "file": "~0.2.2",
     "mkdirp": "~0.3.5",
     "grunt-symbolic-link": "^0.3.1",
-    "express": "^4.0.0",
-    "path": "^0.4.9"
+    "express": "^4.0.0"
   },
   "testDependencies": {
     "mocha": "~1.18.2",
