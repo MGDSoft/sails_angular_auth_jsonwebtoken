@@ -30,6 +30,7 @@ module.exports.policies = {
         photo: ['userToken', 'userSameWhatUpdate'],
         update: ['userToken', 'userSameWhatUpdate']
     }
+
     /*
      // Here's an example of adding some policies to a controller
      RabbitController: {
