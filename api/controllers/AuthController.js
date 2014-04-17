@@ -87,7 +87,7 @@ module.exports = {
                 user.sumFailsLoginNumber();
                 user.save();
 
-                return res.badRequest('Wrong cookie key, only valid cookie in a place.');
+                return res.badRequest('Wrong cookie key, only valid cookie in one place.');
             }
 
             res.json(200, responseOkLogin(user, false, false));

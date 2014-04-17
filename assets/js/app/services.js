@@ -36,7 +36,7 @@ angular.module('angular-client-side-auth')
 
                     $http.post(config.CONSTANTS.API_PATHS.AUTH_REMEMBER, remember).success(function(res) {
 
-                        $log.info("Load user by cookie");
+                        $log.info("Loading user by cookie");
 
                         handleLoginResponseOk(res);
                         // $state.reload() CRASH :S

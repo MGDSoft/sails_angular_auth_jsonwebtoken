@@ -95,14 +95,23 @@ module.exports = {
 
         ,isCookieValid: function (cookieKey){
 
-            if (!this.rememberCode || typeof this.rememberCode.time != 'number' || typeof this.rememberCode.key == 'undefined' || this.rememberCode.key == '' )
+            if (typeof this.rememberCode.time != 'number' || typeof this.rememberCode.key == 'undefined' || this.rememberCode.key == '' )
+            {
+                sails.log.debug('cookie not valid, it`s not defined');
                 return false;
+            }
 
             if (this.rememberCode.time < Date.now() )
-                return false;
+            {
+                sails.log.debug('cookie expired');
+                 return false;
+            }
 
             if (this.rememberCode.key != cookieKey)
+            {
+                sails.log.debug('cookie key does not match '+this.rememberCode.key+ ' ' + cookieKey);
                 return false;
+            }
 
             return true;
         },
