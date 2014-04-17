@@ -10,7 +10,10 @@ module.exports = {
         if (!user)
             return false;
 
-        return jwt.verify(token, user.salt + user.tokenDate);
+        if (!jwt.verify(token, user.salt + user.tokenDate ))
+            return false;
+
+        return true;
     },
 
     decodeToken: function(token)
@@ -30,7 +33,7 @@ module.exports = {
 
     /**
      *
-     * @param {'ma}
+     * @param {}
      * @returns {*}
      */
     generateToken: function(user)
