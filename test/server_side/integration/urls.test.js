@@ -1,5 +1,6 @@
 var supertest = require("supertest")
-    extend = require('util')._extend;
+    extend = require('util')._extend
+    , Q = require("q")
 ;
 
 // user account
@@ -21,11 +22,20 @@ var admin = {
     'password':'123'
 };
 
-function generateTokenByUsername(username, cb){
-    User.findOneByUsername(username).done(function (err, user){
-        var token = JWTService.generateToken(user);
-        cb(err, token, user);
+function generateTokenByUsername(username){
+
+    var deferred = Q.defer();
+
+    User.findOneByUsername(username).then(function (user){
+        user.token = JWTService.generateToken(user);
+
+        deferred.resolve(user);
+
+    }).fail(function(err){
+        deferred.reject(new Error(err));
     });
+
+    return deferred.promise;
 }
 
 describe('HTTP Sails Test:', function () {
@@ -63,8 +73,8 @@ describe('HTTP Sails Test:', function () {
 
         it('Logout - Return a 200', function(done) {
             supertest(sails.hooks.http.app).post('/v1/user/create').send(admin).expect(201, function(){
-                generateTokenByUsername(admin.username, function(err, token){
-                    supertest(sails.hooks.http.app).post('/v1/auth/logout').set('Authorization', token).expect(200, done);
+                generateTokenByUsername(admin.username).then( function(user){
+                    supertest(sails.hooks.http.app).post('/v1/auth/logout').set('Authorization', user.token).expect(200, done);
                 });
             });
         });
@@ -76,8 +86,8 @@ describe('HTTP Sails Test:', function () {
         it('As a Admin user, on /users - Return a 200', function(done) {
             supertest(sails.hooks.http.app).post('/v1/user/create').send(admin).expect(201, function(){
 
-                generateTokenByUsername(admin.username, function(err, token){
-                    supertest(sails.hooks.http.app).get('/v1/user').set('Authorization', token).expect(200, done);
+                generateTokenByUsername(admin.username).then( function(user){
+                    supertest(sails.hooks.http.app).get('/v1/user').set('Authorization', user.token).expect(200, done);
                 });
             });
         });
@@ -86,20 +96,20 @@ describe('HTTP Sails Test:', function () {
             supertest(sails.hooks.http.app).del('/v1/user/1').expect(403, done);
         });
 
-        it('Trying to delete other user - Return a 200', function(done) {
+        it('Trying to delete other user - Return a 403', function(done) {
             supertest(sails.hooks.http.app).post('/v1/user/create').send(user).expect(201, function(){
 
-                generateTokenByUsername(admin.username, function(err, token, userr){
-                    supertest(sails.hooks.http.app).del('/v1/user/'+(userr.id + 1)).set('Authorization', token).expect(403, done);
+                generateTokenByUsername(admin.username).then(function(user){
+                    supertest(sails.hooks.http.app).del('/v1/user/'+(user.id + '1123123')).set('Authorization', user.token).expect(403, done);
                 });
             });
         });
 
-        it('Delete a user user on /user/delete/1  - Return a 200', function(done) {
+        it('Delete a user on /user/delete/1  - Return a 200', function(done) {
             supertest(sails.hooks.http.app).post('/v1/user/create').send(user).expect(201, function(){
 
-                generateTokenByUsername(admin.username, function(err, token, userr){
-                    supertest(sails.hooks.http.app).del('/v1/user/'+userr.id).set('Authorization', token).expect(200, done);
+                generateTokenByUsername(admin.username).then( function(user){
+                    supertest(sails.hooks.http.app).del('/v1/user/'+user.id).set('Authorization', user.token).expect(200, done);
                 });
             });
         });

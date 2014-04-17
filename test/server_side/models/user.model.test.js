@@ -15,45 +15,52 @@ describe('Waterline User model test:', function () {
 
     describe('User model test', function () {
 
-        it ('should create a User record', function (done) {
-            User.create(user).done(function (err, user) {
-                assert.isNull(err);
+        it ('should create a User record', function (then) {
+            User.create(user).then(function (err, user) {
                 assert.isNotNull(user);
-                done();
-            });
+            }).fail(function(err){
+                throw new Error(err);
+            }).done(
+                function(){ then() ;}
+            );
         });
 
-        it ('should have exactly one record', function (done) {
+        it ('should have exactly one record', function (then) {
             User.count(function (err, cnt) {
                 assert.isNull(err);
                 assert.equal(cnt, 1);
-                done();
+                then();
             });
         });
 
-        it ('should be named '+ user.username, function (done) {
-            User.find().limit(1).done(function (err, use) {
-                assert.isNull(err);
+        it ('should be named '+ user.username, function (then) {
+            User.find().limit(1).then(function (use) {
                 assert.equal(use[0].username, user.username);
-                done();
-            });
+            }).fail(function(err){
+                throw new Error(err);
+            }).done(
+                function(){ then() ;}
+            );
         });
 
-        it ('duplicate username throw exception', function (done) {
-            User.create(user).done(function (err, user) {
+        it ('duplicate username throw exception', function (then) {
+            User.create(user).then(function (user) {
+            }).fail(function(err){
                 assert.isNotNull(err);
-                assert.isUndefined(user);
-                done();
-            });
+            }).done(
+                function(){ then() ;}
+            );
         });
 
-        it ('compare encrypted password OK', function (done) {
-            User.findOne({username: user.username}).done(function (err, use) {
-                assert.isNull(err);
+        it ('compare encrypted password OK', function (then) {
+            User.findOne({username: user.username}).then(function (use) {
                 assert.isTrue(use.validPassword('12345'));
                 assert.isFalse(use.validPassword('lieeeeee'));
-                done();
-            });
+            }).fail(function(err){
+                throw new Error(err);
+            }).done(
+                function(){ then() ;}
+            );
         });
 
     });
