@@ -13,6 +13,8 @@ module.exports = {
         if (!user)
             return false;
 
+        sails.log.info("RESULTADO 2",jwt.verify(token, user.salt + user.tokenDate ));
+
         if (!jwt.verify(token, user.salt + user.tokenDate ))
             return false;
 

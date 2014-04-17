@@ -33,6 +33,8 @@ module.exports = function (req, res, next) {
         if (!user )
             return res.forbidden(ERROR_MSG+'3');
 
+        sails.log.info("RESULTADO 1", JWTService.isValidToken(authorization, user ));
+
         if (!JWTService.isValidToken(authorization, user ))
             return res.forbidden(ERROR_MSG+'4');
 
