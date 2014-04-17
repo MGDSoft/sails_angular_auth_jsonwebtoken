@@ -7,8 +7,8 @@ module.exports = {
 
     isValidToken: function(token, user)
     {
-        console.log(user);
-        console.log(token);
+        sails.log.info(user);
+        sails.log.info(token);
 
         if (!user)
             return false;

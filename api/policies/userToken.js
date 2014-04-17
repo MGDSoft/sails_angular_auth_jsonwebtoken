@@ -14,10 +14,11 @@ module.exports = function (req, res, next) {
         ,ERROR_MSG="Invalid token, ref: "+ req.url
         ,authorization = req.headers['authorization'] || req.param('token');
 
-    console.log("TOKEN "+ authorization);
-    console.log(req.headers['authorization']);
-    console.log(req.param('token'));
-    console.log("---- -------");
+
+    sails.log.info("TOKEN "+ authorization);
+    sails.log.info(req.headers['authorization']);
+    sails.log.info(req.param('token'));
+    sails.log.info("---- -------");
 
     if (!authorization)
         return res.forbidden(ERROR_MSG +'1');
