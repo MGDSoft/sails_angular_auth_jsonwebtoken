@@ -6,18 +6,18 @@ var supertest = require("supertest")
 var user = {
     'username':'newUserRole',
     'role':{bitMask: 2,title: "user"},
-    'captcha': true,
+    'recaptcha_response_field': 'true',
     'password':'12345'
 };
 
 var userWithoutCatcha = extend({}, user);
-userWithoutCatcha.captcha = false;
+userWithoutCatcha.recaptcha_response_field = 'false';
 
 // admin account
 var admin = {
     'username':'admin',
     'role': { bitMask: 4, title: 'admin' },
-    'captcha':true,
+    'recaptcha_response_field': 'true',
     'password':'123'
 };
 
@@ -39,10 +39,6 @@ describe('HTTP Sails Test:', function () {
             supertest(sails.hooks.http.app).get('/').expect(200, done);
         });
 
-        it('Logout - Return a 200', function(done) {
-            supertest(sails.hooks.http.app).post('/v1/auth/logout').expect(200, done);
-        });
-
         it('Register a new user no captcha - Return a 422', function(done) {
             supertest(sails.hooks.http.app).post('/v1/user/create').send(userWithoutCatcha).expect(422, done);
         });
@@ -58,6 +54,18 @@ describe('HTTP Sails Test:', function () {
         it('Register a new user is not unique - Return a 422 ', function(done) {
             supertest(sails.hooks.http.app).post('/v1/user/create').send(user).expect(201, function(){
                 supertest(sails.hooks.http.app).post('/v1/user/create').send(user).expect(422, done);
+            });
+        });
+
+        it('Logout Nobody logged - Return a 500', function(done) {
+            supertest(sails.hooks.http.app).post('/v1/auth/logout').expect(500, done);
+        });
+
+        it('Logout - Return a 200', function(done) {
+            supertest(sails.hooks.http.app).post('/v1/user/create').send(admin).expect(201, function(){
+                generateTokenByUsername(admin.username, function(err, token){
+                    supertest(sails.hooks.http.app).post('/v1/auth/logout').set('Authorization', token).expect(200, done);
+                });
             });
         });
 

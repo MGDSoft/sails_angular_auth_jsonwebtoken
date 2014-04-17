@@ -3,8 +3,7 @@
 /* Controllers */
 
 angular.module('angular-client-side-auth')
-    .controller('NavCtrl', ['$rootScope', '$scope', '$location', 'Auth', '$log', '$sails', 'AlertService', '$translate',
-        function($rootScope, $scope, $location, Auth, $log, $sails, AlertService, $translate) {
+    .controller('NavCtrl', function($rootScope, $scope, $location, Auth, User, $log, $sails, AlertService, $translate, $state) {
 
         $scope.user = Auth.user;
         $scope.userRoles = Auth.userRoles;
@@ -16,24 +15,24 @@ angular.module('angular-client-side-auth')
 
         $scope.logout = function() {
             Auth.logout(function() {
-                $location.path('/login');
+                $state.go('anon.login');
             }, function() {
                 //$rootScope.error = "Failed to logout";
             });
         };
 
 
-
-        $scope.delete = function() {
+        $scope.deleteAccount = function() {
 
             if (typeof Auth.user.id == 'undefined' )
             {
-                $location.path('/login');
+                $state.go('anon.login');
                 return;
             }
 
-            Auth.delete(Auth.user.id , function() {
-                $location.path('/login');
+            User.destroy(Auth.user.id , function() {
+                Auth.deleteCurrentUser(true);
+                $state.go('anon.login');
             }, function() {
 
             });
@@ -43,7 +42,7 @@ angular.module('angular-client-side-auth')
         (function () {
 
 
-            $sails.get("/v1/user/subscribe")
+            $sails.get(config.CONSTANTS.API_PATHS.USER_SUBSCRIBE)
 
                 .success(function (data) {
 
@@ -82,78 +81,131 @@ angular.module('angular-client-side-auth')
 
 
 
-            $sails.get("/firehose")
-
-                .success(function (data) {
-                    $sails.on("firehose", function (message) {
-                        $log.debug("firehose, ",message);
-                    });
-                })
-
-                .error(function (data) {
-                    $log.error(data);
-                });
+//            $sails.get("/firehose")
+//
+//                .success(function (data) {
+//                    $sails.on("firehose", function (message) {
+//                        $log.debug("firehose, ",message);
+//                    });
+//                })
+//
+//                .error(function (data) {
+//                    $log.error(data);
+//                })
+//            ;
 
         }());
 
-    }]);
+    });
 
 angular.module('angular-client-side-auth')
-    .controller('LoginCtrl',
-        ['$rootScope', '$scope', '$location', '$window', 'Auth', function($rootScope, $scope, $location, $window, Auth) {
+    .controller('LoginCtrl', function($rootScope, $scope, $location, $window, Auth, $state) {
 
-            $scope.rememberme = true;
-            $scope.login = function() {
-                Auth.login({
-                        username: $scope.username,
-                        password: $scope.password,
-                        rememberme: $scope.rememberme
-                    },
-                    function(res) {
-                        $location.path('/');
-                    },
-                    function(err) {
-                        //$rootScope.error = "Failed to login";
-                    });
-            };
+        $scope.rememberme = true;
+        $scope.login = function() {
+            Auth.login({
+                    username: $scope.username,
+                    password: $scope.password,
+                    rememberme: $scope.rememberme
+                },
+                function(res) {
+                    $state.go('user.home');
+                },
+                function(err) {
+                    //$rootScope.error = "Failed to login";
+                });
+        };
 
-            $scope.loginOauth = function(provider) {
-                $window.location.href = '/auth/' + provider;
-            };
-        }]);
+        $scope.loginOauth = function(provider) {
+            $window.location.href = '/auth/' + provider;
+        };
+    });
 
 angular.module('angular-client-side-auth')
-    .controller('RegisterCtrl',
-        ['$rootScope', '$scope', '$location', 'Auth', 'AlertService', '$window', function($rootScope, $scope, $location, Auth, AlertService, $window) {
-            $scope.role = Auth.userRoles.user;
-            $scope.userRoles = Auth.userRoles;
+    .controller('RegisterCtrl', function($rootScope, $scope, $location, Auth, User, AlertService, $window, $state) {
 
-            $scope.register = function() {
-                Auth.register({
-                        username: $scope.username,
-                        password: $scope.password,
-                        role: $scope.role,
-                        recaptcha_challenge_field: document.getElementById('recaptcha_challenge_field').value,
-                        recaptcha_response_field: document.getElementById('recaptcha_response_field').value
-                    },
-                    function() {
-                        $location.path('/login');
-                        AlertService.addSuccess("Your account was saved!");
-                    },
-                    function(err) {
-                        $window.Recaptcha.reload();
-                        //$rootScope.error = err;
-                    });
-            };
-        }]);
+        $scope.role = Auth.userRoles.user;
+        $scope.userRoles = Auth.userRoles;
+
+        $scope.register = function() {
+            User.create({
+                    username: $scope.username,
+                    password: $scope.password,
+                    role: $scope.role,
+                    recaptcha_challenge_field: document.getElementById('recaptcha_challenge_field').value,
+                    recaptcha_response_field: document.getElementById('recaptcha_response_field').value
+                },
+                function() {
+                    $state.go('anon.login');
+                    AlertService.addSuccess("Your account was saved!");
+                },
+                function(err) {
+                    $window.Recaptcha.reload();
+                });
+        };
+    });
+
+angular.module('angular-client-side-auth')
+    .controller('ProfileCtrl', function($rootScope, $scope, Auth, UserProfile, User, AlertService, $http, $log, $state, $stateParams) {
+
+
+        $scope.profileId=$stateParams.profileId;
+
+        $scope.photoSendUrl = config.CONSTANTS.API_PATHS.USER_PROFILE_UPLOAD_PHOTO.format($scope.profileId);
+
+        $scope.token = localStorage.token || '';
+        $scope.info = '';
+        $scope.photoImage = config.CONSTANTS.NOBODY_PHOTO;
+
+        $scope.complete = ( function(content) {
+            if (typeof content.photo != 'undefined' && content.photo)
+            {
+                $scope.photoImage = config.CONSTANTS.PATHS.UPLOADS + content.photo;
+                AlertService.addSuccess("UPDATED!");
+            }
+        });
+
+        User.find($scope.profileId,
+            function(res) {
+
+                if (!res.username)
+                    $state.go('public.404');
+
+                $scope.username=res.username;
+            }
+        );
+
+
+        UserProfile.find($scope.profileId,
+            function(res) {
+                $scope.info = res.info;
+
+                if (res.photo)
+                    $scope.photoImage = config.CONSTANTS.PATHS.UPLOADS + res.photo + '?i=' + new Date().getTime();
+
+        });
+
+        $scope.profile = function() {
+
+            UserProfile.update($scope.profileId, { info: $scope.info },
+                function(res) {
+                    AlertService.addSuccess("UPDATED!");
+                },
+                function(err) {
+                    $log.error(err);
+                }
+            );
+        };
+
+    });
 
 angular.module('angular-client-side-auth')
     .controller('AdminCtrl',
-        ['$rootScope', '$scope', 'Users', 'Auth', function($rootScope, $scope, Users, Auth) {
+        function($rootScope, $scope, User, Auth) {
             $scope.loading = true;
             $scope.userRoles = Auth.userRoles;
 
-            Users.getAll(function(res) {
+            User.findAll(function(res) {
                 $scope.users = res;
                 $scope.loading = false;
             }, function(err) {
@@ -161,4 +213,4 @@ angular.module('angular-client-side-auth')
                 $scope.loading = false;
             });
 
-        }]);
+        });

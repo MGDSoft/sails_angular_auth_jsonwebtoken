@@ -1,4 +1,5 @@
 var userRoles = require('../../assets/js/app/routingConfig').userRoles
+    , Q = require("q")
     ;
 
 /**
@@ -13,9 +14,9 @@ module.exports = function (req, res, next) {
 
     var id = req.param('id');
 
-    JWTService.getUserFromHeaders(req, function (err, user){
+    JWTService.getUserFromHeaders(req).then(function (user){
 
-        if (err || !user || user.locked)
+        if (!user || user.locked)
             return res.forbidden('You are not permitted to perform this action. 1');
 
         if (user.id != id)
@@ -23,6 +24,8 @@ module.exports = function (req, res, next) {
 
         next();
 
+    }).fail(function(err){
+        return res.serverError(err);
     });
 
 };

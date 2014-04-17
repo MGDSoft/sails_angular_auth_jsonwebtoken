@@ -1,3 +1,5 @@
+var path = require('path');
+
 /**
  * Local environment settings
  *
@@ -31,6 +33,10 @@ module.exports = {
     AUTH_COOKIE_TIME_DAYS: 60,
 
     LOGIN_NUMBER_OF_RETRYS: 3,
+
+    paths: {
+        uploads: path.resolve(__dirname + '/../uploads')
+    },
     // Your SSL certificate and key, if you want to be able to serve HTTP responses
     // over https:// and/or use websockets over the wss:// protocol
     // (recommended for HTTP, strongly encouraged for WebSockets)

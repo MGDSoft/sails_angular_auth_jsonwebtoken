@@ -1,3 +1,5 @@
+var userAdmin = require('../api/policies/userAdmin');
+
 /**
  * Policy mappings (ACL)
  *
@@ -11,7 +13,6 @@
  * http://sailsjs.org/#documentation
  */
 
-
 module.exports.policies = {
 
     // Default policy for all controllers and actions
@@ -19,11 +20,15 @@ module.exports.policies = {
     '*': true,
 
     'UserController': {
-        find: ['userToken', 'userAdmin'],
-        create: ['usernameNotExist', 'captchaRequired'],
+        find: ['userToken', exePolicyOnlyIfParamExist(userAdmin, 'id')],
+        create: ['captchaRequired', 'usernameNotExist'],
         destroy: ['userToken', 'userSameWhatUpdate'],
-        usernameNotExist: ['usernameNotExist'],
-        '*': true
+        usernameNotExist: ['usernameNotExist']
+    },
+    'UserProfileController': {
+        find: ['userToken'],
+        photo: ['userToken', 'userSameWhatUpdate'],
+        update: ['userToken', 'userSameWhatUpdate']
     }
     /*
      // Here's an example of adding some policies to a controller
@@ -43,6 +48,20 @@ module.exports.policies = {
      }
      */
 };
+
+function exePolicyOnlyIfParamExist(policyFunc, idParam, exist)
+{
+    if (!exist)
+        exist = true;
+
+    return function (req, res, next) {
+
+        if (req.param(idParam) == exist)
+            return policyFunc();
+
+        return next();
+    }
+}
 
 /**
  * Here's what the `isNiceToAnimals` policy from above might look like:

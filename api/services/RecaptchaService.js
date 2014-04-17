@@ -1,15 +1,21 @@
-var Recaptcha = require('recaptcha').Recaptcha;
+var Recaptcha = require('recaptcha').Recaptcha
+    , Q = require("q")
+    ;
 
 module.exports = {
 
-    isValid: function(req, done)
+    isValid: function(req)
     {
+        var deferred = Q.defer();
+
         if (sails.config.environment === 'testing')
         {
-            if (req.param('captcha'))
-                return done(null, true);
+            if (req.param('recaptcha_response_field') == 'true')
+                deferred.resolve(true);
             else
-                return done(null, false);
+                deferred.resolve(false);
+
+            return deferred.promise;
         }
 
         var data = {
@@ -22,12 +28,13 @@ module.exports = {
 
         recaptcha.verify(function(success, error_code) {
 
-            if (!success)
-                return done(error_code, false);
-
-            return done(null, true);
-
+            if (success)
+                deferred.resolve(true);
+            else
+                deferred.resolve(false);
         });
+
+        return deferred.promise;
     }
 
 };

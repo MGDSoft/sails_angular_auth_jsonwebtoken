@@ -33,6 +33,30 @@ angular.module('angular-client-side-auth')
         };
     }]);
 
+angular.module('angular-client-side-auth')
+    .directive('ownerLevel', ['Auth', function(Auth) {
+        return {
+            restrict: 'A',
+            link: function($scope, element, attrs) {
+
+                var ownerLevel;
+
+                attrs.$observe('ownerLevel', function(al) {
+                    if(al) ownerLevel = al;
+                    updateCSS();
+                });
+
+                function updateCSS() {
+                    var user = Auth.user;
+                    if(ownerLevel && user && user.id == ownerLevel)
+                        element.css('display', '');
+                    else
+                        element.css('display', 'none');
+                }
+            }
+        };
+    }]);
+
 angular.module('angular-client-side-auth').directive('activeNav', ['$location', function($location) {
     return {
         restrict: 'A',
@@ -66,14 +90,14 @@ angular.module('angular-client-side-auth').directive('activeNav', ['$location', 
 
 }]);
 
-angular.module('angular-client-side-auth').directive('validationUsername', function(Auth) {
+angular.module('angular-client-side-auth').directive('validationUsername', function(User) {
     return {
         require: 'ngModel',
         link: function(scope, elm, attrs, ctrl) {
 
             elm.on('blur', function (evt) {
                 scope.$apply(function () {
-                    Auth.validateUsername(elm.val(), function(res){
+                    User.validateUsername(elm.val(), function(res){
 
                         ctrl.$setValidity('validationUsername', true);
                         return elm.val();

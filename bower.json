@@ -17,6 +17,7 @@
     "angular-sails": "~1.0.3",
     "angular-re-captcha": "~0.0.1",
     "angular-translate": "~2.0.1",
-    "angular-animate": "~1.2.15"
+    "angular-animate": "~1.2.15",
+    "ngUpload": "~0.5.10"
   }
 }

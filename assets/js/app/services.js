@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angular-client-side-auth')
-    .factory('Auth', function ($http, $cookieStore, $log, $location) {
+    .factory('Auth', function ($http, $cookieStore, $log, $location, $rootScope) {
 
         var accessLevels = routingConfig.accessLevels
             , userRoles = routingConfig.userRoles
@@ -17,13 +17,8 @@ angular.module('angular-client-side-auth')
                 return changeUser(JSON.parse(localStorage.user));
             }
 
-            var user = getUserByCookieRemember();
+            getUserByCookieRemember();
 
-            if (user)
-                return user;
-
-            // all vars are empty but just in case
-            deleteCurrentUser(true);
         }
 
         function getUserByCookieRemember()
@@ -35,11 +30,11 @@ angular.module('angular-client-side-auth')
 
                     $log.info("Cookie expired, deleting...");
                     $cookieStore.remove("user");
-                    return null;
+                    deleteCurrentUser(true);
 
                 }else{
 
-                    $http.post('/v1/auth/remember', remember).success(function(res) {
+                    $http.post(config.CONSTANTS.API_PATHS.AUTH_REMEMBER, remember).success(function(res) {
 
                         $log.info("Load user by cookie");
 
@@ -49,8 +44,7 @@ angular.module('angular-client-side-auth')
 
                     }).error(function (err){
                         $log.info("Cookie is old, deleting....");
-                        $cookieStore.remove("user");
-                        return null;
+                        deleteCurrentUser(true);
                     });
                 }
             }
@@ -84,9 +78,13 @@ angular.module('angular-client-side-auth')
 
         function changeUser(user) {
 
+            if (!user)
+                return deleteCurrentUser(false)
+
             $log.debug("change user " + user.role.title);
 
             angular.extend(currentUser, user);
+            $rootScope.user = user;
         }
 
         return {
@@ -116,31 +114,10 @@ angular.module('angular-client-side-auth')
                 return user.role.title === userRoles.user.title || user.role.title === userRoles.admin.title;
 
             },
-            validateUsername: function (username, success, error) {
 
-                $http.get('/v1/user/validation/username/' + username)
-                    .success(function (res) {
-                        success(res);
-                    })
-                    .error(function(err){
-                        error();
-                    });
-
-            },
-            register  : function (user, success, error) {
-
-                $http.post('/v1/user/create', user)
-                    .success(function (res) {
-                        success(res);
-                    })
-                    .error(error)
-
-                ;
-
-            },
             login     : function (user, success, error) {
 
-                $http.post('/v1/auth/login', user)
+                $http.post(config.CONSTANTS.API_PATHS.AUTH_LOGIN, user)
                     .success(function (res) {
                         success(handleLoginResponseOk(res));
                     })
@@ -148,21 +125,9 @@ angular.module('angular-client-side-auth')
                 ;
             },
 
-            delete : function (userId, success, error) {
-
-                $http.delete('/v1/user/'+userId)
-                    .success(function (res) {
-
-                        deleteCurrentUser(true);
-                        success();
-                    })
-                    .error(error)
-                ;
-            },
-
             logout      : function (success, error) {
 
-                $http.post('/v1/auth/logout')
+                $http.post(config.CONSTANTS.API_PATHS.AUTH_LOGOUT)
                     .success(function () {
 
                         deleteCurrentUser(true);
@@ -178,13 +143,75 @@ angular.module('angular-client-side-auth')
     });
 
 angular.module('angular-client-side-auth')
-    .factory('Users', function ($http) {
+    .factory('User', function ($http) {
         return {
-            getAll: function (success, error) {
-                $http.get('/v1/user/').success(success).error(error);
+            findAll: function (success, error) {
+                $http.get(config.CONSTANTS.API_PATHS.USER_REST.format(''))
+                    .success(success)
+                    .error(error);
+            },
+            find: function (userId,success, error) {
+                $http.get(config.CONSTANTS.API_PATHS.USER_REST.format(userId))
+                    .success(success)
+                    .error(error);
+            },
+            validateUsername: function (username, success, error) {
+
+                $http.get(config.CONSTANTS.API_PATHS.USER_VALIDATION_USERNAME.format(username))
+                    .success(function (res) {
+                        success(res);
+                    })
+                    .error(function(err){
+                        error();
+                    });
+
+            },
+            create  : function (user, success, error) {
+
+                $http.post(config.CONSTANTS.API_PATHS.USER_REST.format(''), user)
+                    .success(function (res) {
+                        success(res);
+                    })
+                    .error(error)
+                ;
+
+            },
+            destroy : function (userId, success, error) {
+
+                $http.delete(config.CONSTANTS.API_PATHS.USER_REST.format(userId))
+                    .success(function (res) {
+
+                        success();
+                    })
+                    .error(error)
+                ;
             }
         };
     });
+
+angular.module('angular-client-side-auth')
+    .factory('UserProfile', function ($http) {
+        return {
+            find : function (userId, success, error) {
+
+                $http.get(config.CONSTANTS.API_PATHS.USER_PROFILE_REST.format(userId))
+                    .success(success)
+                    .error(error)
+                ;
+            },
+
+            update: function (userId, params, success, error) {
+
+                error = error || function() {};
+
+                $http.put(config.CONSTANTS.API_PATHS.USER_PROFILE_REST.format(userId), params)
+                    .success(success)
+                    .error(error)
+                ;
+            }
+        };
+    });
+
 
 angular.module('angular-client-side-auth')
     .factory('AlertService', function ($rootScope, $timeout) {

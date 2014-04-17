@@ -11,8 +11,8 @@
 module.exports = function (req, res, next) {
 
     var  decoded
-        ,ERROR_MSG="Invalid token"
-        ,authorization = req.headers['authorization'];
+        ,ERROR_MSG="Invalid token, ref: "+ req.url
+        ,authorization = req.headers['authorization'] || req.param('token');
 
     if (!authorization)
         return res.forbidden(ERROR_MSG);

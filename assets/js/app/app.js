@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngAnimate', 'ngSails', 'reCAPTCHA', 'pascalprecht.translate'])
+angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngAnimate', 'ngSails', 'reCAPTCHA', 'pascalprecht.translate', 'ngUpload'])
 
     .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$sailsProvider', 'reCAPTCHAProvider', '$translateProvider'
         , function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $sailsProvider, reCAPTCHAProvider, $translateProvider) {
 
             // required: please use your own key :)
-            reCAPTCHAProvider.setPublicKey('6LeU__ASAAAAAB5B85GCXz4KzGBkZXto-KxyBXHv');
+            reCAPTCHAProvider.setPublicKey(config.CONSTANTS.CAPTCHA_KEY);
 
             // optional: gets passed into the Recaptcha.create call
 //        reCAPTCHAProvider.setOptions({
@@ -66,6 +66,11 @@ angular.module('angular-client-side-auth', ['ngCookies', 'ui.router', 'ngAnimate
                 .state('user.home', {
                     url        : '/',
                     templateUrl: '/templates/home.html'
+                })
+                .state('user.profile', {
+                    url        : '/profile/:profileId',
+                    templateUrl: '/templates/profile.html',
+                    controller : 'ProfileCtrl'
                 })
                 .state('user.private', {
                     abstract   : true,

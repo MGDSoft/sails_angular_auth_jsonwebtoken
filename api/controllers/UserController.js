@@ -1,4 +1,3 @@
-var passport = require('passport');
 
 /**
  * UserController.js
@@ -17,10 +16,7 @@ module.exports = {
     subscribe: function (req, res) {
 
         // Find all current users in the user model
-        User.find().done(function findUsers(err, users) {
-
-            if (err)
-                return req.serverError(err);
+        User.find().then(function findUsers(users) {
 
             // subscribe this socket to the User model classroom
             User.subscribe(req.socket);
@@ -32,13 +28,10 @@ module.exports = {
             // html over the socket.
             res.send(200);
 
+        }).fail(function(err){
+            return res.serverError(err);
         });
 
-    },
-
-    prueba: function (req, res) {
-
-        console.log(req.param);
-        res.send(200);
     }
+
 };

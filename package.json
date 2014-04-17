@@ -32,7 +32,12 @@
     "enpeem": "~0.1.1",
     "lodash": "~2.4.1",
     "captains-log": "~0.11.7",
-    "should": "~3.2.0"
+    "should": "~3.2.0",
+    "q": "~1.0.1",
+    "file": "~0.2.2",
+    "mkdirp": "~0.3.5",
+    "grunt-symbolic-link": "^0.3.1",
+    "express": "^4.0.0"
   },
   "testDependencies": {
     "mocha": "~1.18.2",
@@ -42,14 +47,14 @@
     "chai": "~1.9.1"
   },
   "engines": {
-    "node": "0.10.25"
+    "node": "0.10.26"
   },
   "scripts": {
     "start": "node app.js",
     "postinstall": "node ./node_modules/bower/bin/bower install",
-    "test": "mocha",
+    "test": "mocha ./test/server_side",
     "prepublish": "npm prune",
-    "pretest": "node test/.installDependencies"
+    "pretest": "node test/server_side/.installDependencies"
   },
   "main": "app.js",
   "repository": {

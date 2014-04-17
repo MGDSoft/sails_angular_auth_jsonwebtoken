@@ -31,21 +31,27 @@ module.exports.routes = {
         view: 'index.html'
     },
 
-    'post /v1/user/create'                      : 'User.create',
-    'post /v1/user/create'                      : 'User.create',
+    // Sockets
+    'get /v1/user/subscribe': 'User.subscribe',
+
+    // Normal petitions
+    'post /v1/user/'                      : 'User.create',
     'delete /v1/user/:id'                       : 'User.destroy',
-    'get /v1/user'                              : 'User.find',
+    'get /v1/user/:id?'                         : 'User.find',
     'get /v1/user/validation/username/:username': 'User.usernameNotExist',
+
+    'put /v1/user-profile/:id'   : 'UserProfile.update',
+    'get /v1/user-profile/:id'   : 'UserProfile.find',
+    'post /v1/user-profile/photo/:id'   : 'UserProfile.photo',
 
     'post /v1/auth/login'   : 'Auth.login',
     'post /v1/auth/remember': 'Auth.remember',
     'post /v1/auth/logout'  : 'Auth.logout',
 
-    // Sockets
-    'get /v1/user/subscribe': 'User.subscribe',
-    'get /v1/user/prueba'   : 'User.prueba',
-
+    // Other petitions
     'get /*': function (req, res, next) {
+
+        var result;
 
         // Sockets petitions
         if (!req.path)
@@ -57,15 +63,9 @@ module.exports.routes = {
         }
 
         // Assets Js/CSS/images
-        if (req.path.match(/\.(js|css|png|jpg|gif)$/g)) {
+        if (result=req.path.match(/\.(js|css|png|jpg|gif|html)$/g)) {
+
             return next();
-        }
-
-        var template = sails.config.paths.public + '/' + req.path;
-
-        // Templates
-        if (fs.existsSync(template)) {
-            return res.sendfile(template);
         }
 
         // Load 404 in angular

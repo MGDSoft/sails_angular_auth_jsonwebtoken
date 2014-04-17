@@ -1,9 +1,11 @@
-var jwt = require('jws');
+var jwt = require('jws')
+    , Q = require("q")
+;
 
 module.exports = {
 
 
-    isValidToken: function(token, user, done)
+    isValidToken: function(token, user)
     {
         if (!user)
             return false;
@@ -26,6 +28,11 @@ module.exports = {
         }
     },
 
+    /**
+     *
+     * @param {'ma}
+     * @returns {*}
+     */
     generateToken: function(user)
     {
         if (!user)
@@ -42,28 +49,42 @@ module.exports = {
         return token;
     },
 
-    getUserFromHeaders: function (req, done)
+    /**
+     * @param {req} req
+     * @returns {Promise}
+     */
+    getUserFromHeaders: function (req)
     {
-        var authorization = req.headers['authorization'],
-            userId;
+        var authorization = req.param('token') || req.headers['authorization'],
+            userId,
+            deferred = Q.defer();
+        ;
 
         if (!authorization)
-            return done('header doesn`t exist',null);
+        {
+            deferred.reject(new Error('authorization doesn`t exist'));
+        }else{
 
-        try {
+            try {
 
-            userId = JSON.parse(jwt.decode(authorization).payload).id;
+                userId = JSON.parse(jwt.decode(authorization).payload).id;
 
-        } catch (err) {
-            return done('Invalid User',null);
+            } catch (err) {
+                deferred.reject(new Error('Invalid User'));
+                return deferred.promise;
+            }
+
+            User.findOne(userId).then(function (user){
+
+                if (!user)
+                    deferred.reject(new Error('User doesnt exist'));
+
+                deferred.resolve(user);
+            });
         }
 
-        User.findOne(userId).done(function (err, user){
 
-            if (!user || err)
-                return done('User doesnt exist', null);
 
-            return done(null, user);
-        });
+        return deferred.promise;
     }
 };

@@ -1,21 +1,16 @@
 
 module.exports = {
 
-    tableName: 'user_profile',
+//    tableName: 'user_profile',
+//    collectionName: 'user_profile',
 
     attributes: {
 
-        id: {
-            type: 'integer',
-            unique: true,
-            primaryKey: true,
-            autoIncrement: false,
-            foreignKey: true,
-            references: 'user',
-            on: 'id'
+        info: {
+            type     : 'string'
         },
 
-        info: {
+        photo: {
             type     : 'string'
         }
 

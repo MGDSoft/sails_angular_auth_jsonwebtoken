@@ -1,4 +1,8 @@
-/**
+var express = require('express')
+    ,local = require('./local')
+    ,path = require('path')
+;
+ /**
  * Configure advanced options for the Express server inside of Sails.
  *
  * For more information on configuration, check out:
@@ -15,8 +19,11 @@ module.exports.express = {
 	//
 	// loadMiddleware: function( app, defaultMiddleware, sails ) { ... }
 
+    customMiddleware: function (app) {
 
-
+        app.use('/uploads', express.static(local.paths.uploads));
+        app.use('/templates', express.static(path.resolve(__dirname + '/../.tmp/public/templates')));
+    }
 
 	// Override one or more of the default middleware (besides bodyParser, cookieParser)
 	// 

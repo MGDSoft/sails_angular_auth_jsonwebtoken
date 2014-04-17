@@ -12,18 +12,22 @@ module.exports = {
     logout: function(req, res)
     {
         req.logout();
-        res.send(200);
 
-        JWTService.getUserFromHeaders(req, function (err, user) {
+        JWTService.getUserFromHeaders(req).then(function (user) {
 
-            if (err || !user)
-                return;
+            if (!user)
+                return res.invalidDataRequest('User doesnt exist');
 
             User.publishUpdate(user.id, {
                 id: user.id,
                 logged: false,
                 username: user.username
             });
+
+            return res.send(200);
+
+        }).fail(function(err){
+            return res.serverError(err);
         });
 
     },
@@ -36,12 +40,9 @@ module.exports = {
         ;
 
         if (!username || !password)
-            res.invalidDataRequest('Username or password is required');
+            return res.invalidDataRequest('Username or password is required');
 
-        User.findOneByUsername(username).done(function (err, user) {
-
-            if (err)
-                return res.serverError('login crash');
+        User.findOneByUsername(username).then(function (user) {
 
             if (!user)
                 return res.invalidDataRequest('Incorrect username.');
@@ -53,11 +54,14 @@ module.exports = {
 
                 user.sumFailsLoginNumber();
                 user.save();
+
                 return res.invalidDataRequest('Invalid password');
             }
 
-            res.json(200, responseOkLogin(user, remember, true));
+            return res.json(200, responseOkLogin(user, remember, true));
 
+        }).fail(function(err){
+            return res.serverError(err);
         });
     },
 
@@ -70,10 +74,7 @@ module.exports = {
         if (!id || !key )
             res.badRequest('Fields are required');
 
-        User.findOne(id).done(function (err, user){
-
-            if (err)
-                return res.serverError('Login crash');
+        User.findOne(id).then(function (user){
 
             if (!user)
                 return res.badRequest('Incorrect username.');
@@ -90,6 +91,9 @@ module.exports = {
             }
 
             res.json(200, responseOkLogin(user, false, false));
+
+        }).fail(function(err){
+            return res.serverError(err);
         });
 
     }
@@ -110,8 +114,6 @@ function responseOkLogin(user, needCreateRemember, needResetRemember)
     // Reset failsLoginNumber
     user.failsLoginNumber = 0;
     user.save();
-
-    sails.log.debug("Token generated " + token);
 
     User.publishUpdate(user.id, {
         id: user.id,

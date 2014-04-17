@@ -4,7 +4,7 @@
  */
 
 var npm = require('enpeem')
-	, package = require('../package.json')
+	, package = require('../../package.json')
 	, util = require('util')
 	, _ = require('lodash')
 	, log = require('captains-log')();

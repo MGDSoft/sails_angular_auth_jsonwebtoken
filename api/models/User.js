@@ -1,13 +1,12 @@
 var bcrypt = require('bcrypt')
     ,userRoles = require('../../assets/js/app/routingConfig').userRoles
-
 ;
 
 /**
- * User.js
+ * User
  *
+ * @module      :: Model
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
- * @docs        :: http://sailsjs.org/#!documentation/models
  */
 
 module.exports = {
@@ -56,12 +55,7 @@ module.exports = {
         },
 
         profile: {
-            columnName: 'profile_id',
-            type: 'integer',
-            foreignKey: true,
-            references: 'user_profile',
-            on: 'id',
-            defaultsTo: null
+            model: 'UserProfile'
         },
 
         validPassword: function (password) {
@@ -118,15 +112,16 @@ module.exports = {
             var obj = this.toObject();
 
             return {
+                id      : obj.id,
                 username: obj.username,
-                role    : obj.role
+                role    : obj.role,
+                profile : obj.profile
             };
         }
 
     },
 
     beforeCreate: function (values, next) {
-
 
         // Generate salt per user
         bcrypt.genSalt(function generateSalt(err, salt) {
@@ -148,6 +143,27 @@ module.exports = {
 
         });
 
+    },
+
+    afterCreate: function (userNew, next) {
+
+        UserProfile.create({id: userNew.id}).then(function (profile){
+
+            if (!profile)
+                throw new Error('error creating user');
+
+            return profile;
+
+        }).then(function (profile){
+
+            User.update({id: userNew.id},{profile: userNew.id}).then(function (profile){
+
+                return next();
+            });
+
+        }).fail(function(err){
+            return next(err);
+        });
     }
 
 };

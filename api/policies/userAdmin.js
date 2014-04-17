@@ -11,9 +11,9 @@ var userRoles = require('../../assets/js/app/routingConfig').userRoles
  */
 module.exports = function (req, res, next) {
 
-    JWTService.getUserFromHeaders(req, function (err, user){
+    JWTService.getUserFromHeaders(req).then( function (user){
 
-        if (err || !user || user.locked)
+        if (!user || user.locked)
             return res.forbidden('You are not permitted to perform this action. 1');
 
         if (user.role.bitMask != userRoles.admin.bitMask)
@@ -21,6 +21,8 @@ module.exports = function (req, res, next) {
 
         return next();
 
+    }).fail(function(err){
+        return res.serverError(err);
     });
 
 };

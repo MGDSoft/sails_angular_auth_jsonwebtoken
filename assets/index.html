@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" data-ng-app="angular-client-side-auth">
-<head><title></title><!-- Viewport mobile tag for sensible mobile support-->
+<head>
+    <title></title><!-- Viewport mobile tag for sensible mobile support-->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!-- STYLES-->
     <link href="/styles/importer.css" rel="stylesheet">
-    <!-- STYLES END--></head>
+    <!-- STYLES END-->
+</head>
 <body>
 
 <div data-ng-controller="NavCtrl" class="navbar">
@@ -27,12 +29,15 @@
                     <a href="/admin" translate="index.nav_admin"></a>
                 </li>
                 <li data-access-level="accessLevels.user">
+                    <a href="/profile/{{user.id}}" translate="index.nav_profile">Profile</a>
+                </li>
+
+                <li data-access-level="accessLevels.user">
                     <a href="" data-ng-click="logout()" translate="index.nav_logout"></a>
                 </li>
                 <li data-access-level="accessLevels.user">
-                    <a href="" data-ng-click="delete()" translate="index.nav_delete"></a>
+                    <a href="" data-ng-click="deleteAccount()" translate="index.nav_delete"></a>
                 </li>
-
 
                 <li>
                     <a href="" data-ng-click="changeLanguage('es')" translate="index.nav_spanish"></a>
@@ -67,19 +72,21 @@
 <!--<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>-->
 <!--<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>-->
 <script type="text/javascript" src="/bower_components/angular-translate/angular-translate.min.js"></script>
+<script type="text/javascript" src="/bower_components/ngUpload/ng-upload.min.js"></script>
 <script type="text/javascript" src="/js/socket.io.js"></script>
 <script type="text/javascript" src="/js/sails.io.js"></script>
 <script type="text/javascript" src="/bower_components/angular-sails/dist/angular-sails.min.js"></script>
 <script type="text/javascript" src="/bower_components/angular-animate/angular-animate.min.js"></script>
 <script type="text/javascript" src="/bower_components/angular-re-captcha/angular-re-captcha.js"></script>
 
+<script type="text/javascript" src="/js/app/conf/globalFunctions.js"></script>
+<script type="text/javascript" src="/js/app/conf/configPublic.js"></script>
 <script type="text/javascript" src="/js/app/routingConfig.js"></script>
 <script type="text/javascript" src="/js/app/app.js"></script>
 <script type="text/javascript" src="/js/app/services.js"></script>
 <script type="text/javascript" src="/js/app/controllers.js"></script>
 <script type="text/javascript" src="/js/app/filters.js"></script>
 <script type="text/javascript" src="/js/app/directives.js"></script>
-<script type="text/javascript" src="/js/app/constantsPublic.js"></script>
 <script type="text/javascript" src="/js/app/langs/lang_en-en.js"></script>
 <script type="text/javascript" src="/js/app/langs/lang_es-es.js"></script>
 

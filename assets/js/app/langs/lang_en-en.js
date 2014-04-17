@@ -9,6 +9,7 @@ var translationsEN = {
     'index.nav_home' : 'Home',
     'index.nav_private' : 'Private',
     'index.nav_admin' : 'Admin',
+    'index.nav_profile' : 'My Profile',
     'index.nav_logout' : 'Log out',
     'index.nav_delete' : 'Delete Account',
     'index.nav_spanish' : 'Spanish',
@@ -24,6 +25,13 @@ var translationsEN = {
     'login.form_password_label': 'Password',
     'login.form_remember_label': 'Remember me',
     'login.form_submit_label': 'Log in',
+
+    // template/profile
+    'profile.title': 'Profile info of {{name}}',
+    'profile.desc': 'Profile desc',
+    'profile.form_info_label': 'Info',
+    'profile.form_info_submit_label': 'Send Profile',
+    'profile.form_photo_submit_label': 'Change photo',
 
     // template/register
     'register.title' : 'Register',

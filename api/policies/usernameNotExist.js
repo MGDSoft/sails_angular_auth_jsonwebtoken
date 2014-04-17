@@ -6,15 +6,15 @@ module.exports = function (req, res, next) {
     if (!username)
         return res.invalidDataRequest('The username is required');
 
-    User.findOneByUsername(username).done(function (err, user) {
-
-        if (err)
-            return res.serverError(err);
+    User.findOneByUsername(username).then(function (user) {
 
         if (user)
             return res.invalidDataRequest('The username is not unique');
 
         return next();
+
+    }).fail(function(err){
+        return res.serverError(err);
     });
 
 };

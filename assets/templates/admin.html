@@ -10,9 +10,9 @@
     </thead>
     <tbody>
     <tr data-ng-repeat="user in users">
-        <td>{{ user.id }}</td>
+        <td><a href="/profile/{{user.id}}">{{ user.id }}</a></td>
         <td>
-            {{ user.username }}
+            <a href="/profile/{{user.id}}">{{ user.username }}</a>
         </td>
         <td>
             <span data-ng-class="{&quot;label-info&quot;: user.role.title == userRoles.user.title, &quot;label-success&quot;: user.role.title == userRoles.admin.title}" class="label">{{ user.role.title }}</span>
