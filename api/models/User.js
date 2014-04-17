@@ -95,7 +95,7 @@ module.exports = {
 
         ,isCookieValid: function (cookieKey){
 
-            if (typeof this.rememberCode.time != 'number' || typeof this.rememberCode.key == 'undefined' || this.rememberCode.key == '' )
+            if (!this.rememberCode || typeof this.rememberCode.time != 'number' || typeof this.rememberCode.key == 'undefined' || this.rememberCode.key == '' )
                 return false;
 
             if (this.rememberCode.time < Date.now() )
