@@ -55,7 +55,7 @@ module.exports = {
      */
     getUserFromHeaders: function (req)
     {
-        var authorization = req.param('token') || req.headers['authorization'],
+        var authorization = req.headers['authorization'] || req.param('token'),
             userId,
             deferred = Q.defer();
         ;
@@ -77,7 +77,7 @@ module.exports = {
             User.findOne(userId).then(function (user){
 
                 if (!user)
-                    deferred.reject(new Error('User doesnt exist'));
+                    deferred.reject(new Error('User Id:'+userId+' doesnt exist'));
 
                 deferred.resolve(user);
             });

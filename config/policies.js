@@ -20,7 +20,7 @@ module.exports.policies = {
     '*': true,
 
     'UserController': {
-        find: ['userToken', exePolicyOnlyIfParamExist(userAdmin, 'id')],
+        find: ['userToken', exePolicyOnlyIfParamExistOrNot(userAdmin, 'id', false)],
         create: ['captchaRequired', 'usernameNotExist'],
         destroy: ['userToken', 'userSameWhatUpdate'],
         usernameNotExist: ['usernameNotExist']
@@ -49,15 +49,12 @@ module.exports.policies = {
      */
 };
 
-function exePolicyOnlyIfParamExist(policyFunc, idParam, exist)
+function exePolicyOnlyIfParamExistOrNot(policyFunc, idParam, exist)
 {
-    if (!exist)
-        exist = true;
-
     return function (req, res, next) {
 
-        if (req.param(idParam) == exist)
-            return policyFunc();
+        if (req.param(idParam, false) == exist)
+            return policyFunc(req, res, next);
 
         return next();
     }
