@@ -31,7 +31,6 @@ module.exports.connections = {
     //
     localDiskDb         : {
         adapter: 'sails-disk',
-        filePath: 'db_disk/',
         schema  : true
     },
 

@@ -7,18 +7,10 @@ module.exports = {
 
     isValidToken: function(token, user)
     {
-        sails.log.info(user);
-        sails.log.info(token);
-
         if (!user)
             return false;
 
-        sails.log.info("RESULTADO 2",jwt.verify(token, user.salt + user.tokenDate ));
-
-        if (!jwt.verify(token, user.salt + user.tokenDate ))
-            return false;
-
-        return true;
+        return jwt.verify(token, user.salt + user.tokenDate );
     },
 
     decodeToken: function(token)
