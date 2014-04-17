@@ -1,4 +1,5 @@
-/uploads
+uploads
+db_disk
 
 ################################################
 ###############  .gitignore   ##################
@@ -71,7 +72,8 @@
 
 node_modules
 bower_components
-
+.bower-cache
+.bower-registry
 
 
 

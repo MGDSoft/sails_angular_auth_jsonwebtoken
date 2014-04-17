@@ -21,7 +21,8 @@
 module.exports.connections = {
 
     memory              : {
-        adapter: 'sails-memory'
+        adapter: 'sails-memory',
+        schema  : true
     },
 
     // Local disk storage for DEVELOPMENT ONLY
@@ -29,7 +30,9 @@ module.exports.connections = {
     // Installed by default.
     //
     localDiskDb         : {
-        adapter: 'sails-disk'
+        adapter: 'sails-disk',
+        filePath: 'db_disk/',
+        schema  : true
     },
 
     // MySQL is the world's most popular relational database.
@@ -43,7 +46,8 @@ module.exports.connections = {
         host    : 'localhost',
         user    : 'root',
         password: '',
-        database: 'angular_client_side_auth'
+        database: 'angular_client_side_auth',
+        schema  : true
     },
 
     // MongoDB is the leading NoSQL database.
