@@ -15,20 +15,20 @@ module.exports = function (req, res, next) {
         ,authorization = req.headers['authorization'] || req.param('token');
 
     if (!authorization)
-        return res.forbidden(ERROR_MSG);
+        return res.forbidden(ERROR_MSG +'1');
 
     decoded = JWTService.decodeToken(authorization);
 
     if (!decoded || typeof decoded.payload.id == 'undefined')
-        return res.forbidden(ERROR_MSG);
+        return res.forbidden(ERROR_MSG +'2');
 
     User.findOne(decoded.payload.id).then(function (user){
 
         if (!user )
-            return res.forbidden(ERROR_MSG);
+            return res.forbidden(ERROR_MSG+'3');
 
         if (!JWTService.isValidToken(authorization, user ))
-            return res.forbidden(ERROR_MSG);
+            return res.forbidden(ERROR_MSG+'4');
 
         return next();
 
