@@ -49,7 +49,13 @@ $ npm test
 - Recaptcha https://github.com/mllrsohn/angular-re-captcha
 - angular-translate https://github.com/angular-translate/angular-translate
 - animations
+- ngUpload https://github.com/twilson63/ngUpload
 
+### Testing
+
+- Karma
+- Protractor
+- Jasmine pending
 
 # Todo
 
