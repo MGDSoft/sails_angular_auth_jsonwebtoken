@@ -22,15 +22,18 @@ module.exports = function (req, res, next) {
     if (!decoded || typeof decoded.payload.id == 'undefined')
         return res.forbidden(ERROR_MSG);
 
-    User.findOne(decoded.payload.id).done(function (err, user){
+    User.findOne(decoded.payload.id).then(function (user){
 
-        if (!user || err)
+        if (!user )
             return res.forbidden(ERROR_MSG);
 
         if (!JWTService.isValidToken(authorization, user ))
             return res.forbidden(ERROR_MSG);
 
         return next();
+
+    }).fail(function(err){
+        return res.serverError(err);
     });
 
 };
