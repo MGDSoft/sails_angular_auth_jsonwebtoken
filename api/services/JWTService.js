@@ -7,6 +7,9 @@ module.exports = {
 
     isValidToken: function(token, user)
     {
+        console.log(user);
+        console.log(token);
+
         if (!user)
             return false;
 
